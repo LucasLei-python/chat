@@ -1,4 +1,4 @@
-*{
+﻿*{
 	margin:0;
 	padding:0px;}
 body{
@@ -11,7 +11,7 @@ body{
 	border-left:1px #000 solid;
 	border-right:1px #000 solid;
 	width:950px;
-	height:1450px;
+	height:100%;
 	
 	margin:0 auto}
 .main{
@@ -23,10 +23,10 @@ body{
 	float:left;
 	background:url(images/03.jpg);
 	height:271px;
-	width:900px;}
+	width:100%;}
 .middmain{
 	width:888px;
-	height:1118px;
+	height:100%;
 	float:left;
 	background:url(images/leftbian.jpg) repeat-y;}
 .middmainright{
@@ -36,14 +36,14 @@ body{
 	height:1118px;}
 .sou{
 	padding-top:15px;
-	width:888px;
+	width:100%;
 height:32px;
 float:left;
 }
 .sou a,a:link{text-decoration:none}
 .leftbian{
 	width:199px;
-	height:1072px;
+	height:800px;
 	float:left;
 	background:url(images/left.jpg);
 	
@@ -68,7 +68,7 @@ float:left;
 	padding-left:32px;
 	float:left;
 	width:468px;
-	height:1072px;}
+	height:100%;}
 .middtoptop{
 	float:left;
 	width:468px;
@@ -102,7 +102,7 @@ float:left;
 .middright{
 	float:left;
 	width:188px;
-	height:1072px;}
+	height:100%;}
 .righttitle{
 	color:#FFF;
 	font-size:14px;
