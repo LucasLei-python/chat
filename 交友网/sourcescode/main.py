@@ -4,9 +4,13 @@
 
 from flask import Flask, render_template
 from flask import request
-from .mysql import Mysql
+from mysql01 import Mysql01
 
 app = Flask(__name__)
+
+# my01 = Mysql01()
+# my01.query()
+# my01.close()#执行完毕必须调用close()方法
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -39,4 +43,4 @@ def maintain():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)

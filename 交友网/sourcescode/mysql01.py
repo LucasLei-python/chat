@@ -1,7 +1,7 @@
 import pymysql
 
 
-class Mysql:
+class Mysql01:
     def __init__(self, user="exchange", password="321", database="soul"):
         self.__host = '176.140.10.103'
         self.__port = 3306

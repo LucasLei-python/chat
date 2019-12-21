@@ -10,6 +10,7 @@ html, body, h1, form, fieldset, legend, ol, li {
     margin: 0;
     padding: 0;
 }
+
 /*定义<body>标记样式*/
 body {
     background: #ffffff;
@@ -33,7 +34,7 @@ form#payment fieldset {
 }
 form#payment fieldset:last-of-type { margin-bottom: 0; }
 form#payment legend {
-    color: #384313;
+    color:#384313;
     font-size: 16px;
     font-weight: bold;
     padding-bottom: 10px;
@@ -97,6 +98,15 @@ form#payment input[type=radio] {
     margin-right: 5px;
 }
 </style>
+<script type="text/javascript">
+    function aa(){
+        var a=document.getElementById("phone").value
+        // alert(a)
+        if (a!=11)
+        { alert("手机号错误");}
+    }
+
+</script>
 </head>
 <body>
 <form id=payment>
@@ -113,7 +123,7 @@ form#payment input[type=radio] {
             </li>
             <li>
                 <label for=phone>联系电话：</label>
-                <input id=phone name=phone type=tel placeholder="系统自动带出" required>
+                <input id=phone name=phone type=tel placeholder="系统自动带出" onkeydown="aa()" required >
             </li>
         </ol>
     </fieldset>
