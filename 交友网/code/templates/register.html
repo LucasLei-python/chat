@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <style>
+        body{background:url(../static/images/fan-04.jpg) top left;
+        background-size:100%;}
+    </style>
+    
+    <title>注册页面</title>
+    <style>
+        /* .pg_header {
+            position: fixed;
+            height: 68px;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: #14e3eb;
+            line-height: 68px;
+        }
+
+        .pg_header .logo {
+            margin: 0 auto;
+            float: left;
+            width: 117px;
+            text-align: center;
+            line-height: 28px;
+            font-size: 38px;
+            color: white;
+        } */
+
+        .pg_dl {
+            left: 500px;
+            display: inline-block;
+            color: black;
+            font-weight: bold;
+            border-radius: 16px;
+        }
+
+        .pg_header .pg_dl:hover {
+            background-color: #2459fb;
+            cursor: pointer;
+        }
+
+        .left {
+            margin-top: 20px;
+            width: 400px;
+            display: inline-block;
+            
+        }
+
+        .pg_body {
+            margin-top: 120px;
+            font-size: 15px;
+            display: inline-block;
+            font-weight:bold;
+            width: 100px;
+            font-family:"微软雅黑";
+        }
+
+        .pg_body.menu {
+            width: 20px;
+            padding: 20px;
+            float: left;
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: 200px;
+            height: 25px;
+            border-radius: 6px;
+        }
+
+        input[type="password"] {
+            width: 200px;
+            height: 25px;
+            border-radius: 6px;
+        }
+
+        input[type="submit"] {
+            background-color: #586d1e;
+            border: none;
+            color: white;
+            padding: 5px 108px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            font-weight:bold;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .kong {
+            margin-top: -44px;
+            margin-left: 90px;
+            float: left;
+            padding: 15px;
+        }
+
+        .can {
+            width: 500px;
+            height: 10px;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .tian {
+            color:red;
+            float: right;
+            font-size: 12px;
+            margin-right: -80px;
+            margin-top: -25px;
+        }
+    </style>
+</head>
+<body id="i88" style="margin: 10px">
+<form name="tijiao" method="post" onsubmit="return check()" action="winford.top">
+    <div class="left"></div>
+    <div class="pg_body">
+        <div class="menu">用户名:</div>
+        <div class="kong">
+            <input id="text1" type="text" name="01" placeholder="请输入用户名" onblur="check()">
+            <span id="div1" class="tian" style="margin-top: -11px">*(为必填)<span>
+        </span></span></div>
+        <div class="menu">性别:</div>
+        <div class="kong" style="width:300px;">
+            男<input type="radio" name="gender" value="0">
+            女 <input type="radio" name="gender" value="1">
+            <div style="margin-top: 10px"></div>
+        </div>
+        <div class="menu">密码:</div>
+        <div class="kong">
+            <input id="text2" type="password" name="02" onblur="check()">
+            <span id="div2" class="tian" style="margin-top: -25px">*(为必填)<span>
+        </span></span></div>
+        <div class="menu">确认密码:</div>
+        <div class="kong">
+            <input id="text3" type="password" name="01" onblur="check()">
+            <span id="div3" class="tian" style="margin-top: -25px">*(为必填)<span>
+        </span></span></div>
+        <div class="menu">电话号码:</div>
+        <div class="kong">
+            <input id="text4" type="text" name="01" required="" onblur="check()">
+            <span id="div4" class="tian" style="margin-top: -15px">*(为必填) <span>
+        </span></span></div>
+
+        <div class="menu">邮箱地址:</div>
+        <div class="kong">
+            <input id="text5" type="text" name="01" onblur="check()">
+            <span id="div5" class="tian" style="margin-top: -25px">*(为必填)<span>
+        </span></span></div>
+        <div class="menu">邮箱验证码:</div>
+        <div class="kong">
+            <input id="text6" type="text" name="01" onblur="check()">
+            <span id="div6" class="tian" style="margin-top: -25px">*(为必填)<span>
+        </span></span></div>
+
+        <div class="can" style="margin-top: 25px">
+            <input id="i111" type="submit" name="tijiao" value="注 册">
+        </div>
+            <p style="width: 130px;display: inline-block;"></p>
+        <div class="can"><a href="login.html" class="fg_pw">已注册,去登录</a></div>
+
+<script type="text/javascript">
+    //刷新or取消
+    document.getElementById('i111').onclick = function () {
+        location.reload();
+    }
+    document.getElementById('i222').onclick = function () {
+        location.reload();
+    }
+
+    //用户名验证
+    function checkname() {
+        var div = document.getElementById("div1");
+        div.innerHTML = "";
+        var name1 = document.tijiao.text1.value;
+        if (name1 == "") {
+            div.innerHTML = "用户名不能为空！";
+            document.tijiao.text1.focus();
+            return false;
+        }
+        if (name1.length < 2 || name1.length > 14) {
+            div.innerHTML = "长度2-14个字符";
+            document.tijiao.text1.select();
+            return false;
+        }
+    }
+
+    //密码验证
+    function checkpassword() {
+        var div = document.getElementById("div2");
+        div.innerHTML = "";
+        var password = document.tijiao.text2.value;
+        if (password == "") {
+            div.innerHTML = "密码不能为空";
+            document.tijao.text2.focus();
+            return false;
+        }
+        if (password.length < 8 || password.length > 16) {
+            div.innerHTML = "密码长度为8-16位";
+            document.tijiao.text2.select();
+            return false;
+        }
+        return true;
+    }
+
+    function checkrepassword() {
+        var div = document.getElementById("div3");
+        div.innerHTML = "";
+        var password = document.tijiao.text2.value;
+        var repass = document.tijiao.text3.value;
+        if (repass == "") {
+            div.innerHTML = "密码不能为空";
+            document.tijiao.text3.focus();
+            return false;
+        }
+        if (password != repass) {
+            div.innerHTML = "密码不一致";
+            document.tijiao.text3.select();
+            return false;
+        }
+        return true;
+    }
+
+    //电话验证
+    function checkphone() {
+        var div = document.getElementById("div4");
+        div.innerHTML = "";
+        var tel = document.tijiao.text4.value;
+        var tel_1 = /^1[358][0123456789]\d{8}$/;
+        if (tel.test(div4.value)) {
+            document.getElementById(text4).submit();
+        } else {
+            alert("格式不正确");
+        }
+    }
+
+    //手机验证
+    function checkme(obj) {
+        var val = obj.value();
+        var mobilevalid = /^(0|86|17951)?(13[0-9]|15[012356789]|17[0678]|18[0-9]|14[57])[0-9]{8}$/;
+        if (!mobilevalid.test(val)) {
+            alert('请输入正确的手机号码！')
+            return false;
+        }
+    }
+
+    //邮箱验证
+    function checkEmail() {
+        var div = document.getElementById("div5");
+        div.innerHTML = "";
+        var email = document.tijiao.text5.value;
+        var sw = email.indexOf("@", 0);
+        var sw1 = email.indexOf(".", 0);
+        var tt = sw1 - sw;
+        if (email.length == 0) {
+            div.innerHTML = "邮箱不能为空";
+            document.tijiao.text5.focus();
+            return false;
+        }
+        if (email.indexOf("@", 0) == -1) {
+            div.innerHTML = "必须包含@符号";
+            document.tijiao.text5.select();
+            return false;
+        }
+        if (email.indexOf(".", 0) == -1) {
+            div.innerHTML = "必须包含.符号";
+            document.tijiao.text5.select();
+            return false;
+        }
+        if (tt == 1) {
+            div.innerHTML = "@和.不能一起";
+            document.tijiao.text5.select();
+            return false;
+        }
+        if (sw > sw1) {
+            div.innerHTML = "@符号必须在.之前";
+            document.tijiao.text5.select();
+            return false;
+        } else {
+            return true;
+        }
+        return ture;
+    }
+
+    function check() {
+        if (checkname() && checkpassword() && checkrepassword() && checkme(obj) && checkEmail()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
+</div></form></body></html>

@@ -20,6 +20,14 @@ def home():
 def maintain():
     return render_template("Default.html")
 
+@app.route('./templates',methods=['GET'])
+def login_from():
+    return render_template("login.html")
+
+@app.route('./templates',methods=['POST'])
+def login():
+    return render_template("login.html")
+
 
 # @app.route('/signin', methods=['GET'])
 # def signin_form():
