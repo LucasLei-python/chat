@@ -70,7 +70,7 @@
     </style>
 </head>
 <body id="i89">
-<form name="tijiao" method="post" onsubmit="return check()" >
+<form name="tijiao" method="POST" onsubmit="return check()" >
     <!--ction="/code/templates/winford.top"-->
 
     <div class="left"></div>
@@ -91,9 +91,9 @@
             <p style="width: 30px;display: inline-block;"></p>
     </div>
     <div class="can" style="margin-top: 25px">
-          <a href="register.html" class="fg_pw">去注册</a>
+          <a href="/register" class="fg_pw">去注册</a>
           <p style="width: 100px;display: inline-block;"></p>
-          <a href="password.html">忘记密码？</a>
+          <a href="/password">忘记密码？</a>
      </div>
 
 <script type="text/javascript">
@@ -122,7 +122,7 @@
         }
     }
     function check() {
-        if (checkname() && checkpassword() && checkrepassword() && checkme(obj) && checkEmail()) {
+        if (checkname() && checkpassword() && checkrepassword() && checkme(obj)) {
             return true;
         } else {
             return false;
