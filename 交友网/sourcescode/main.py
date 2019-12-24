@@ -17,9 +17,8 @@ my01.close()  # 执行完毕必须调用close()方法
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    if request.method == "GET":
-        return "Hello world"
-    # render_template("../templates/index.html")
+    if request.method == "GET":        
+        render_template("../templates/login.html")
 
 age=28
 # 需要跳转的页面
@@ -36,6 +35,14 @@ def building():
 @app.route("/chatmain",methods=['GET','POST'])
 def chating():
     return render_template("chatmain.html")
+
+@app.route('./register',methods=['GET'])
+def login_from():
+    return render_template("register.html")
+
+@app.route('./register',methods=['POST'])
+def login():
+    return render_template("register.html")
 
 
 if __name__ == '__main__':
