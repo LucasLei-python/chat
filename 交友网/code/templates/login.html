@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <style>
+        body{background:url(../static/images/fan-04.jpg) top left;
+        background-size:100%;}
+    </style>
+    
+    <title>登录页面</title>
+    <style>
+        .left {
+            float:left;
+            margin-top: 20px;
+            width: 400px;
+            display: inline-block;
+            }
+
+        .pg_body {
+            margin-top: 220px;
+            font-size: 15px;
+            display: inline-block;
+            font-weight:bold;
+            width: 150px;
+            /*font-family:"微软雅黑";*/
+        }
+        .pg_body.menu {
+            width: 10px;
+            padding: 20px;
+            float: left;
+            font-weight: bold;
+        }
+        .kong {
+            margin-top: -44px;
+            margin-left: 60px;
+            float: left;
+            padding: 15px;
+        }
+        input[type="password"] {
+            width: 200px;
+            height: 25px;
+            border-radius: 6px;
+        }
+
+        input[type="submit"] {
+            background-color: #586d1e;
+            border: none;
+            color: white;
+            padding: 5px 40px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            font-weight:bold;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .can {
+            width: 300px;
+            height: 6px;
+            text-align: center;
+            display: inline-block;
+        }
+        input[type="text"] {
+            width: 200px;
+            height: 25px;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body id="i89">
+<form name="tijiao" method="post" onsubmit="return check()" >
+    <!--ction="/code/templates/winford.top"-->
+
+    <div class="left"></div>
+    <div class="pg_body">
+        <div class="menu">用户名:</div>
+        <div class="kong">
+            <input id="text1" type="text" name="username"
+                   placeholder="请输入用户名" onblur="check()">
+            <span id="div1" class="tian" style="margin-top: 10px"><span>
+        </span></span></div>
+    <div class="menu">密码:</div>
+        <div class="kong">
+            <input id="text2" type="password" name="password" onblur="check()">
+            <span id="div2" class="tian" style="margin-top: 10px"><span>
+    </span></span></div>
+    <div class="can">
+            <input id="i111" type="submit" name="tijiao" value="登　录">
+            <p style="width: 30px;display: inline-block;"></p>
+    </div>
+    <div class="can" style="margin-top: 25px">
+          <a href="register.html" class="fg_pw">去注册</a>
+          <p style="width: 100px;display: inline-block;"></p>
+          <a href="password.html">忘记密码？</a>
+     </div>
+
+<script type="text/javascript">
+    //刷新or取消
+    document.getElementById('i111').onclick = function () {
+        location.reload();
+    }
+    document.getElementById('i222').onclick = function () {
+        location.reload();
+    }
+
+    //用户名验证
+    function checkname() {
+        var div = document.getElementById("div1");
+        div.innerHTML = "";
+        var name1 = document.tijiao.text1.value;
+        if (name1 == "") {
+            div.innerHTML = "用户名不能为空！";
+            document.tijiao.text1.focus();
+            return false;
+        }
+        if (name1.length < 2 || name1.length > 14) {
+            div.innerHTML = "长度2-14个字符";
+            document.tijiao.text1.select();
+            return false;
+        }
+    }
+    function check() {
+        if (checkname() && checkpassword() && checkrepassword() && checkme(obj) && checkEmail()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
+
+</div></form></body></html>
