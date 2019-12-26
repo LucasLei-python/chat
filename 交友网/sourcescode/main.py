@@ -3,7 +3,7 @@
 
 
 from flask import Flask, render_template
-from flask import request, make_response
+from flask import request, make_response,jsonify
 from mysql01 import Mysql01
 
 app = Flask(__name__)
@@ -14,16 +14,18 @@ my01 = Mysql01()
 @app.route('/', methods=['GET', 'POST'])
 def home():
     if request.method == "GET":
-        return render_template("login.html")
+        return render_template("login.html",data={},dic={"status":"0","message":""})
     else:
         # 判断是否存在
         username = request.form.get("username")
-        pwd = request.form.get("password")
-        result = my01.query("select pwd from user_info where username=%s", [username])
+        pwd = request.form.get("password")        
+        result = my01.query("select pwd from user_info where username=%s",[username])
+        # print(jsonify({"error":"账号不存在，请确认"}))
         if len(result) == 0:
-            return "<script>alert('账号不存在，请确认.')</script>"
-        elif result == pwd:
-            return render_template("Default.html?username=%s"%username)
+            return render_template('login.html',data={"username":username,"pwd":pwd},dic={"status":"1","message":"账号不存在，请确认"})
+        elif '%s'%result[0] == pwd:
+            # 写入log
+            return render_template("Default.html",username=username)
         else:
             return "<script>alert('密码错误，请确认.')</script>"
 
@@ -63,4 +65,4 @@ def pwd():
 # 执行完毕必须调用close()方法
 my01.close()
 if __name__ == '__main__':
-    app.run(debug=True, port=5001)
+    app.run(debug=False, port=5000)

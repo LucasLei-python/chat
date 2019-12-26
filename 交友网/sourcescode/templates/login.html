@@ -67,25 +67,42 @@
             height: 25px;
             border-radius: 6px;
         }
-    </style>
+    </style> 
+    
 </head>
 <body id="i89">
-<form name="tijiao" method="POST" onsubmit="return check()" >
+<form name="tijiao02" method="POST" >
+<!--    <form name="tijiao02" method="POST" onsubmit="return check()" >-->
     <!--ction="/code/templates/winford.top"-->
-
+    
     <div class="left"></div>
     <div class="pg_body">
         <div class="menu">用户名:</div>
         <div class="kong">
+<!--            <input id="text1" type="text" name="username"-->
+<!--                   placeholder="请输入用户名" onblur="check()">-->
             <input id="text1" type="text" name="username"
-                   placeholder="请输入用户名" onblur="check()">
+                   placeholder="请输入用户名" >
             <span id="div1" class="tian" style="margin-top: 10px"><span>
-        </span></span></div>
+        </span></span></div> 
+          
     <div class="menu">密码:</div>
         <div class="kong">
             <input id="text2" type="password" name="password" onblur="check()">
             <span id="div2" class="tian" style="margin-top: 10px"><span>
-    </span></span></div>
+    </span></span>
+    {% if dic.status=="1" %}
+            <script>
+                alert('{{dic.message}}') 
+                // $('#text1').textbox('setValue','{{data.username}}');
+                // $('#text2').textbox('setValue','{{data.pwd}}');
+                document.getElementById("text1").focus(); 
+                document.getElementById("text1").value='{{data.username}}';
+                document.getElementById("text2").value='{{data.pwd}}';
+
+            </script>            
+        {% endif %}     
+    </div>
     <div class="can">
             <input id="i111" type="submit" name="tijiao" value="登　录">
             <p style="width: 30px;display: inline-block;"></p>
