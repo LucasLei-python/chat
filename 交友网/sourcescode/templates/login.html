@@ -67,8 +67,19 @@
             height: 25px;
             border-radius: 6px;
         }
-    </style> 
-    
+    </style>
+    <script src="/static/js/jquery-3.4.1.min.js" ></script>
+    <script>
+        $(document).ready(function(){
+        //点击链接的时候调用
+        $("#a_password").click(function(){ 
+          //得到input的值
+        var count = $("#text1").val();            
+          //设置a_password的href的值        
+        $("#a_password").attr("href","/password/"+count);
+      });
+    }); 
+    </script>
 </head>
 <body id="i89">
 <form name="tijiao02" method="POST" >
@@ -93,15 +104,23 @@
     </span></span>
     {% if dic.status=="1" %}
             <script>
-                alert('{{dic.message}}') 
-                // $('#text1').textbox('setValue','{{data.username}}');
-                // $('#text2').textbox('setValue','{{data.pwd}}');
+                alert('{{dic.message}}')                
                 document.getElementById("text1").focus(); 
                 document.getElementById("text1").value='{{data.username}}';
                 document.getElementById("text2").value='{{data.pwd}}';
 
             </script>            
-        {% endif %}     
+        {% endif %}   
+    {% if dic.status=="2" %}
+        <script>
+            alert('{{dic.message}}')                
+            document.getElementById("text2").focus(); 
+            document.getElementById("text1").value='{{data.username}}';
+            document.getElementById("text2").value='{{data.pwd}}';
+
+
+        </script>            
+    {% endif %}  
     </div>
     <div class="can">
             <input id="i111" type="submit" name="tijiao" value="登　录">
@@ -109,8 +128,8 @@
     </div>
     <div class="can" style="margin-top: 25px">
           <a href="/register" class="fg_pw">去注册</a>
-          <p style="width: 100px;display: inline-block;"></p>
-          <a href="/password">忘记密码？</a>
+          <p style="width: 100px;display: inline-block;"></p>          
+          <a href="" id="a_password">忘记密码？</a>
      </div>
 
 <script type="text/javascript">
@@ -147,4 +166,7 @@
     }
 </script>
 
-</div></form></body></html>
+</div>
+</form>
+</body>
+</html>
