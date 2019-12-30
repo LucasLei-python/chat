@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>项目进度</title>
+    <style>
+        body{
+            text-align: center;
+        }
+        div{
+            text-align: center;
+            margin-top: 10px;    
+            /* margin: 80px auto; */
+        }
+        table{
+            border: 1px solid black;
+            width: 800px;
+        }
+        table tr th{
+            border: 1px solid black;
+            background-color:bisque; 
+            height: 30px;                        
+        }
+        table tr td{
+            border: 1px solid black;   
+            height: 30px;         
+        }
+        .firsthr{
+            background-color: cadetblue;
+            color: #fff;
+        }
+        progress{
+            width: 120px;
+            background:red;
+
+        }
+        progress::-webkit-progress-value{            
+            background: rgb(15, 231, 15);
+        }
+        progress::-webkit-progress-bar{
+            background:red;
+        }
+        .tdleft{
+            text-align: left;
+        }
+        #divinline{
+            /* 设置成行内快，可以用于外层div的text-align */
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div>
+    <div id="divinline">        
+        <table cellspacing= 0px>
+            <thead>
+                <th colspan="7">第一周项目进度</th>
+            </thead>
+            <tr class="firsthr">
+                <td style="width:100px">
+                    队员
+                </td >                
+                <td style="width:300px">
+                    负责项目
+                </td>                
+                <td style="width:160px">
+                    完成百分比
+                </td>
+                <td>
+                    本周需完成事项
+                </td>
+            </tr>
+            <!-- <tr>
+                <td>登录、注册、密码修改模块</td>                
+                <td>范范</td>
+                <td class="tdleft">1、登录、注册、密码修改等html页面开发<br>
+                    2、登录页面账号密码验证，页面跳转功能完成
+                </td>
+                <td class="tdleft">
+                    1、注册、密码修改页面验证输入值的JavaScript完善<br>
+                    2、注册、密码修改页面数据录入
+                </td>
+                <td>
+                    <progress value=50 max=100 ></progress>50%
+                </td>
+                <td class="tdleft" >
+                        注册、密码修改页面验证输入值的JavaScript完善
+                </td>
+            </tr> -->
+            <tr>
+                <td rowspan="3">
+                    范范
+                </td>                
+                <td class="tdleft">
+                    登录、注册、密码修改等html页面开发
+                </td>                
+                <td class="tdleft">
+                    <progress value=100 max=100 ></progress>100%
+                </td>
+                <td rowspan="3">输入框数值判断的JavaScript完善，注册、密码修改数据录入</td>
+            </tr>
+            <tr>
+                <td class="tdleft">
+                    输入框数值判断的JavaScript完善，注册、密码修改数据录入
+                </td>
+                <td class="tdleft">
+                    <progress value=10 max=100 ></progress>10%
+                </td>
+            </tr>
+            <tr>
+                <td class="tdleft">
+                    营收统计模块
+                </td>
+                <td class="tdleft">
+                    <progress value=0 max=100 ></progress>0%
+                </td>
+            </tr>
+            <tr>
+                    <td rowspan="3">
+                        雷辉
+                    </td>                
+                    <td class="tdleft">
+                        Flask框架搭建
+                    </td>                
+                    <td class="tdleft">
+                        <progress value=100 max=100 ></progress>100%
+                    </td>
+                    <td rowspan="3" class="tdleft">首页布局完善</td>
+                </tr>
+                <tr>
+                    <td class="tdleft">
+                        首页布局完善
+                    </td>
+                    <td class="tdleft">
+                        <progress value=40 max=100 ></progress>40%
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tdleft">
+                        生活圈、用户反馈模块
+                    </td>
+                    <td class="tdleft">
+                        <progress value=0 max=100 ></progress>0%
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="2">
+                        坤哥
+                    </td>
+                    <td class="tdleft">个人中心模块开发(html网页开发完成，数据录入待完成)</td>
+                    <td class="tdleft">
+                            <progress value=50 max=100 ></progress>50%
+                    </td>
+                    <td rowspan="2" class="tdleft">
+                            个人中心模块数据录入
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tdleft">
+                        聊天记录获取
+                    </td>
+                    <td class="tdleft">
+                        <progress value=0 max=100 ></progress>0%
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="2">
+                        刘攀
+                    </td>
+                    <td class="tdleft">用户聊天室服务端</td>
+                    <td class="tdleft">
+                        <progress value=30 max=100 ></progress>30%
+                    </td>
+                    <td class="tdleft" rowspan="2">
+                        用户聊天室服务端100%完成
+                    </td>
+                </tr>
+                <td class="tdleft">用户聊天室客户端</td>
+                    <td class="tdleft">
+                    <progress value=0 max=100 ></progress>0%
+                </td>
+            </tr>
+            <tr>
+                    <td rowspan="2">
+                        新欢
+                    </td>
+                    <td class="tdleft">用户群聊室服务端</td>
+                    <td class="tdleft">
+                        <progress value=30 max=100 ></progress>30%
+                    </td>
+                    <td class="tdleft" rowspan="2">
+                        用户群聊室服务端100%完成
+                    </td>
+                </tr>
+                <td class="tdleft">用户群聊室</td>
+                    <td class="tdleft">
+                    <progress value=0 max=100 ></progress>0%
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>

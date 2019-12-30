@@ -19,7 +19,7 @@ my01 = Mysql01()
 @app.route('/', methods=['GET', 'POST'])
 def home():
     if request.method == "GET":
-        islogin=need_login(app)  
+        islogin=need_login(app)        
         if not islogin:
             return render_template("Default.html",data={"uid":session.get("uid"),"username":session.get("username")})
         return islogin
@@ -68,9 +68,22 @@ def login_from():
 
 
 @app.route('/register', methods=['POST'])
-def login():    
+def register():    
     return "hello world"
     # render_template("register.html")
+
+@app.route('/item_report', methods=['GET'])
+def item_report():    
+    return render_template("item_report.html")
+    # render_template("register.html")
+
+@app.route('/login', methods=['GET'])
+def login():    
+    return render_template("login.html")
+
+@app.route('/self_center', methods=['GET'])
+def self_center():    
+    return render_template("self_center.html")
 
 
 @app.route('/password/<username>', methods=['GET','POST'])

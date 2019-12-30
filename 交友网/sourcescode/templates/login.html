@@ -66,7 +66,7 @@
             width: 200px;
             height: 25px;
             border-radius: 6px;
-        }
+        }        
     </style>
     <script src="/static/js/jquery-3.4.1.min.js" ></script>
     <script>
@@ -75,8 +75,13 @@
         $("#a_password").click(function(){ 
           //得到input的值
         var count = $("#text1").val();            
-          //设置a_password的href的值        
-        $("#a_password").attr("href","/password/"+count);
+          //设置a_password的href的值
+        if (count!="" && count!=undefined){
+            $("#a_password").attr("href","/password/"+count);
+        }        
+        else{
+            $("#a_password").attr("href","/password/12");
+        }
       });
     }); 
     </script>
@@ -126,12 +131,14 @@
             <input id="i111" type="submit" name="tijiao" value="登　录">
             <p style="width: 30px;display: inline-block;"></p>
     </div>
-    <div class="can" style="margin-top: 25px">
+    <div class="can" style="margin-top: 25px">        
           <a href="/register" class="fg_pw">去注册</a>
-          <p style="width: 100px;display: inline-block;"></p>          
+          <p style="width: 100px;display: inline-block;"></p>         
           <a href="" id="a_password">忘记密码？</a>
      </div>
-
+     <div style="height: 100px;line-height: 100px";>
+        <label onclick="open_url()">项目进度</label>
+     </div>
 <script type="text/javascript">
     //刷新or取消
     document.getElementById('i111').onclick = function () {
@@ -140,7 +147,10 @@
     document.getElementById('i222').onclick = function () {
         location.reload();
     }
-
+    //跳转
+    function open_url(){
+        window.open('/item_report', '', 'height=600, width=900, top=100, left=200, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no') 
+    }
     //用户名验证
     function checkname() {
         var div = document.getElementById("div1");
