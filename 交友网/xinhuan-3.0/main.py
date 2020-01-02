@@ -5,6 +5,7 @@
 from flask import Flask, render_template,session
 from flask import request, make_response,jsonify
 from mysql01 import Mysql01
+from sendemail import sendMail
 # import config
 # from Islogin import need_login
 import time
@@ -38,6 +39,9 @@ def login():
 def reg():
     if request.method=="GET":
         return render_template("reg.html")
+    else:
+        email=''
+        sendMail('收件人','邮件内容','标题')
 
 # 忘记密码页面
 @app.route('/user/forget', methods=['GET', 'POST'])
