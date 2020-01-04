@@ -65,7 +65,7 @@
               <div class="layui-form-item">
                 <label for="L_email" class="layui-form-label">邮箱</label>
                 <div class="layui-input-inline">
-                  <input type="text" id="L_email" name="email" required lay-verify="required" autocomplete="off" class="layui-input">
+                  <input type="text" id="L_email" name="email" required lay-verify="email" autocomplete="off" class="layui-input">
                 </div>
               </div>
               <div class="layui-form-item">
@@ -113,6 +113,7 @@
 </div>
 <script src="/static/js/canvas.js"></script>
 <script src="/static/layui/layui.js"></script>
+<script src="/static/js/jquery-3.4.1.min.js"></script>
 <script>    
     var input_code=document.getElementById("L_vercode");
     input_code.onkeyup=function(){

@@ -7,14 +7,34 @@ from email.header import Header
 # 邮件正文
 from email.mime.text import MIMEText
 import random
+from mysql01 import Mysql01
 
-code = random.sample(list(range(1, 10)), 6)
-code = list(map(lambda x: str(x), code))
-code = ''.join(code)
+# verification_code = random.sample(list(range(1, 10)), 6)
+# verification_code = list(map(lambda x: str(x), verification_code))
+# verification_code = ''.join(verification_code)
 
+
+# 判断验证码是否有效
+
+def code_isvaild(email):
+    my01=Mysql01()
+    # 判断5min内是否有发过验证码
+    result=my01.query("select code from vertify_code where email=%s and inittime>(now()-interval 5 minute) order by inittime limit 1",[email])
+    if result:
+        return result[0]
+    else:
+        verification_code = random.sample(list(range(1, 10)), 6)
+        verification_code = list(map(lambda x: str(x), verification_code))
+        verification_code = ''.join(verification_code)
+        my01.in_up_de("insert into vertify_code(email,code)values(%s,%s)",[email,verification_code])
+        return verification_code
+
+#找回密码
+def find_screte():
+    pass
 
 # print(sim)
-def sendMail(receiver, content, title):
+def sendMail(receiver,title,type):
     """
     说明：此函数实现发送邮件功能。
     :param user: 用户名
@@ -27,10 +47,14 @@ def sendMail(receiver, content, title):
     """
     mail_user="826746996@qq.com"
     mail_pwd="tpprhkmiewbabcgb"
-    sender="826746996@qq.com"
+    sender="心欢"
     mail_host = "smtp.qq.com"  # qq的SMTP服务器
     # 第一部分：准备工作
     # 1.将邮件的信息打包成一个对象
+    if type=="验证码":
+        content="您的验证码为%s,有效期为5分钟，请在规定时间内完成验证，如非本人操作，请忽略本邮件"%code_isvaild(receiver)
+    elif type=="找回密码":
+        content=""
     message = MIMEText(content, "plain", "utf-8")  # 内容，格式，编码
     # 2.设置邮件的发送者
     message["From"] = sender
@@ -71,6 +95,6 @@ if __name__ == "__main__":
     receivers = csr.split(' ')
     mail_receiver = receivers + [shoujian]
     email_content = "人生苦短，我用Python." \
-                    "您的验证码为：%s" % code
+                    "您的验证码为：%s" % verification_code
     email_title = "AID人工智能"
     sendMail(mail_receiver, email_content, email_title)
