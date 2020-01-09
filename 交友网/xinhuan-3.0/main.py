@@ -16,6 +16,10 @@ from flask_sqlalchemy import SQLAlchemy
 import pymysql
 pymysql.install_as_MySQLdb()
 import json
+
+# 导入日志模块
+# from rizhi import logging
+
 # from forms import NewPostForm
 
 # 将当前的模块构建成flask应用
