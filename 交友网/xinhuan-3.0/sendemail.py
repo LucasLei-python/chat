@@ -8,6 +8,7 @@ from email.header import Header
 from email.mime.text import MIMEText
 import random
 from mysql01 import Mysql01
+from modules import *
 
 # verification_code = random.sample(list(range(1, 10)), 6)
 # verification_code = list(map(lambda x: str(x), verification_code))
@@ -21,17 +22,20 @@ def code_isvaild(email):
     # 判断5min内是否有发过验证码
     result=my01.query("select code from vertify_code where email=%s and inittime>(now()-interval 5 minute) order by inittime limit 1",[email])
     if result:
+        my01.close()
         return result[0]
     else:
         verification_code = random.sample(list(range(1, 10)), 6)
         verification_code = list(map(lambda x: str(x), verification_code))
         verification_code = ''.join(verification_code)
         my01.in_up_de("insert into vertify_code(email,code)values(%s,%s)",[email,verification_code])
+        my01.close()
         return verification_code
 
+
 #找回密码
-def find_screte():
-    pass
+def find_screte(email):
+    return User_info.query.filter(User_info.email==email).first()
 
 # print(sim)
 def sendMail(receiver,title,type):
@@ -51,10 +55,13 @@ def sendMail(receiver,title,type):
     mail_host = "smtp.qq.com"  # qq的SMTP服务器
     # 第一部分：准备工作
     # 1.将邮件的信息打包成一个对象
+    code=None
     if type=="验证码":
-        content="您的验证码为%s,有效期为5分钟，请在规定时间内完成验证，如非本人操作，请忽略本邮件"%code_isvaild(receiver)
+        code=code_isvaild(receiver)
+        content="您的验证码为%s,有效期为5分钟，请在规定时间内完成验证，如非本人操作，请忽略本邮件"%code
     elif type=="找回密码":
-        content=""
+        code=find_screte(receiver)
+        content="您的密码为%s，请及时修改密码"%code.pwd
     message = MIMEText(content, "plain", "utf-8")  # 内容，格式，编码
     # 2.设置邮件的发送者
     message["From"] = sender
@@ -78,6 +85,7 @@ def sendMail(receiver,title,type):
         # 参数：发送方，接收方，邮件信息
         smtpObj.sendmail(mail_user, receiver, message.as_string())
         print("邮件发送成功")
+        return code
     except:
         print('邮件发送失败')
 

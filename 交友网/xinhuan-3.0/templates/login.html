@@ -22,12 +22,12 @@
       <li class="layui-nav-item layui-this">
         <a href="#"><i class="iconfont icon-jiaoliu"></i>交流</a>
       </li>
-      <li class="layui-nav-item">
+      <!-- <li class="layui-nav-item">
         <a href="#"><i class="iconfont icon-iconmingxinganli"></i>bb</a>
       </li>
       <li class="layui-nav-item">
         <a href="#" target="_blank"><i class="iconfont icon-ui"></i>cc</a>
-      </li>
+      </li> -->
     </ul>
     
     <ul class="layui-nav fly-nav-user">
@@ -63,21 +63,21 @@
           <div class="layui-form layui-form-pane">
             <form method="POST">
               <div class="layui-form-item">
-                <label for="L_email" class="layui-form-label">邮箱</label>
+                <label for="L_email" class="layui-form-label" >邮箱</label>
                 <div class="layui-input-inline">
-                  <input type="text" id="L_email" name="email" required lay-verify="email" autocomplete="off" class="layui-input">
+                  <input type="text" id="L_email" name="email" required lay-verify="email" placeholder="请输入邮箱地址" autocomplete="off" class="layui-input">
                 </div>
               </div>
               <div class="layui-form-item">
                 <label for="L_pass" class="layui-form-label">密码</label>
                 <div class="layui-input-inline">
-                  <input type="password" id="L_pass" name="pass" required lay-verify="required" autocomplete="off" class="layui-input">
+                  <input type="password" id="L_pass" name="pass" placeholder="请输入密码" required lay-verify="required" autocomplete="off" class="layui-input">
                 </div>
               </div>
               <div class="layui-form-item">
                 <label for="L_vercode" class="layui-form-label">图形码</label>
                 <div class="layui-input-inline">
-                  <input type="text" id="L_vercode" name="vercode" required lay-verify="required" placeholder="请输入图形码"  class="layui-input">
+                  <input type="text" id="L_vercode" name="vercode" required lay-verify="required" placeholder="请输入图形码" autocomplete="off" class="layui-input">
                 </div>
                 <div class="layui-form-pane">
                     <canvas width="120" height="38" id="c1"></canvas>
@@ -86,6 +86,7 @@
                   <!-- <span style="color: #c00;">d</span> -->
                 </div>
               </div>
+             </form>
               <div class="layui-form-item">
                 <!-- <input type="submit" class="layui-btn" lay-filter="*" id="btn_login" value="立即登录" > -->
                 <button class="layui-btn" lay-filter="*"   id="btn_login">立即登录</button>
@@ -98,7 +99,6 @@
                 <a href="" onclick="layer.msg('正在通过QQ登入', {icon:16, shade: 0.1, time:0})" class="iconfont icon-qq" title="QQ登入"></a>
                 <a href="" onclick="layer.msg('正在通过微博登入', {icon:16, shade: 0.1, time:0})" class="iconfont icon-weibo" title="微博登入"></a>
               </div>
-            </form>
           </div>
         </div>
       </div>
@@ -113,14 +113,19 @@
 </div>
 <script src="/static/js/canvas.js"></script>
 <script src="/static/layui/layui.js"></script>
+
 <script src="/static/js/jquery-3.4.1.min.js"></script>
-<script>    
+<script src="/static/js/common.js"></script>
+<script>
+    ProductCanvas($("#figure_code"));  
+    $("#c1").bind("click",function(){
+      ProductCanvas($("#figure_code"));
+    })
     var input_code=document.getElementById("L_vercode");
     input_code.onkeyup=function(){
-      var figure_code=document.getElementById("figure_code");
-      
+      var figure_code=document.getElementById("figure_code");      
       var error_mesg=document.getElementById("error_mesg");      
-      if(figure_code.innerText!=input_code.value.toUpperCase()){        
+      if(figure_code.value!=input_code.value.toUpperCase()){        
         error_mesg.innerText="图形验证不符，请重新输入";    
         // input_code.value="";
         // input_code.setAttribute("value","");  
@@ -131,16 +136,46 @@
         
       }
     }
+    
     var btn=document.getElementById("btn_login");
-    btn.onclick=function(){
-      if(error_mesg.innerText!=""){
+    btn.onclick=function(){            
+      if(error_mesg.innerText!="" || $("#L_vercode").val()==""){
         input_code.focus();
+        layer.msg("验证码错误或没有填写");
         return false;
       }
       else{
-        return true;
-      } 
-    }
+        //0.创建xhr对象
+        //var xhr=new XMLHttpRequest()
+        //1.创建请求
+        // return true;
+        var formobj = document.querySelector('form');
+        console.log(formobj)
+        xhr.open('post','/user/login',true);
+        console.log(xhr)
+        xhr.onreadystatechange=function(){
+        console.log(xhr.readyState)
+        if(xhr.readyState==4&&xhr.status==200){
+          //处理响应JSON
+          var data=JSON.parse(xhr.responseText)
+          if(data.status=="1000")
+          {
+            //设延时跳转
+            setTimeout(function(){
+              clearTimeout();
+              location.href=data.value;
+            },1200)
+            
+          }
+          layer.msg(data.Msg);
+        }
+         }
+        //3.发送请求
+        xhr.send(convert_FormData_to_json(new FormData(formobj)))
+        console.log(convert_FormData_to_json(new FormData(formobj)))
+      }
+    }  
+    
 </script>
 <script>
 layui.cache.page = 'user';

@@ -9,7 +9,7 @@ function rc(min,max){
     var b=rn(min,max);
     return "rgb("+r+","+g+","+b+")";
 }
-function ProductCanvas(){
+function ProductCanvas(obj){
 // 随机字符串
 var target='';
 //3.填充背景颜色,颜色要浅一点
@@ -53,10 +53,9 @@ for(var i=0;i<40;i++){
     ctx.fillStyle=rc(150,200);
     ctx.fill();
 }
-    var figure_code=document.getElementById("figure_code");
-    figure_code.innerText=target;
-    console.log(figure_code)
-    console.log(target.toLowerCase());
+    // var figure_code=document.getElementById("figure_code");
+    // figure_code.innerText=target;
+    obj.val(target);
+    // console.log(obj)
+    // console.log(target.toLowerCase());
 };
-ProductCanvas();
-document.getElementById("c1").onclick=ProductCanvas;
