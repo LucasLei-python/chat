@@ -136,9 +136,28 @@
         
       }
     }
-    
+    // 邮箱验证
+    function email_check(str){
+      var reg1=/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/ig;
+      if(!reg1.test(str))
+      {
+        return false;
+      }
+      return true;
+    }
     var btn=document.getElementById("btn_login");
-    btn.onclick=function(){            
+    btn.onclick=function(){
+      //验证邮箱
+      if(!email_check($("#L_email").val()))
+      {
+        layer.msg("邮箱格式错误");
+        return false;
+      } 
+      //验证密码
+      if(!$("#L_pass").val()){
+        layer.msg("密码不能为空");
+        return false;
+      }           
       if(error_mesg.innerText!="" || $("#L_vercode").val()==""){
         input_code.focus();
         layer.msg("验证码错误或没有填写");

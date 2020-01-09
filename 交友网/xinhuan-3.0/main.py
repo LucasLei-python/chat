@@ -92,7 +92,7 @@ def reg():
             vercode=data.get("vercode")
             result=base.check_code(email,vercode)
             if result:
-                dict_msg={"status":"0","Msg":result,"value":""}
+                dict_msg={"status":"1001","Msg":result,"value":""}
             # 写入数据
             else:
                 result=base.insert_user_info(data.get("username"),data.get("pass"),data.get("email"))
