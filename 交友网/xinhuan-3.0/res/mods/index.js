@@ -20,7 +20,7 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function(
   
   //阻止IE7以下访问
   if(device.ie && device.ie < 8){
-    layer.alert('如果您非得使用 IE 浏览器访问Fly社区，那么请使用 IE8+');
+    layer.alert('如果您非得使用 IE 浏览器访问，那么请使用 IE8+');
   }
   
   layui.focusInsert = function(obj, str){
@@ -343,10 +343,11 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function(
     */
   }
   $('body').on('click', '#LAY_signin', function(){
+    layer.msg("111")
     var othis = $(this);
     if(othis.hasClass(DISABLED)) return;
 
-    fly.json('/sign/in', {
+    fly.json('/user/kiss', {
       token: signRender.token || 1
     }, function(res){
       signRender(res.data);

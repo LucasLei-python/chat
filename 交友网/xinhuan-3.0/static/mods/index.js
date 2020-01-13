@@ -68,8 +68,8 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function(
         dataType: options.dataType || 'json',
         data: data,
         url: url,
-        success: function(res){
-          if(res.status === 0) {
+        success: function(res){          
+          if(res.status == 1000) {
             success && success(res);
           } else {
             layer.msg(res.msg || res.code, {shift: 6});
@@ -322,6 +322,7 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function(
   ,signRender = function(data){
     laytpl(tplSignin).render(data, function(html){
       elemSigninMain.html(html);
+      console.log(tplSignin)
     });
     laytpl(tplSigninDay).render(data, function(html){
       elemSigninDays.html(html);
@@ -344,12 +345,16 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function(
   }
   $('body').on('click', '#LAY_signin', function(){
     var othis = $(this);
+    console.log(othis)
     if(othis.hasClass(DISABLED)) return;
 
-    fly.json('/sign/in', {
-      token: signRender.token || 1
-    }, function(res){
-      signRender(res.data);
+    fly.json('/user/kiss', JSON.stringify({
+      "type":"add"
+    }), function(res){
+      // var data=JSON.stringify(res)
+      console.log("res")
+       console.log(res)
+      signRender(res);
     }, {
       error: function(){
         othis.removeClass(DISABLED);
@@ -500,7 +505,7 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function(
       ,skin: 'fly-layer-search'
       // 百度 的搜索串是http://www.baidu.com/s?wd=%s
       // bing 的搜索串是http://cn.bing.com/search?q=%s
-      ,content: ['<form action="http://www.baidu.com/s">'
+      ,content: ['<form action="http://www.baidu.com/s" target="_blank">'
         ,'<input autocomplete="off" placeholder="搜索内容，回车跳转" type="text" name="wd">'
       ,'</form>'].join('')
       ,success: function(layero){

@@ -1,0 +1,113 @@
+2020-01-12 09:43:55  : 服务启动成功
+2020-01-12 09:46:28  : 8246996@qq.com登录--->Error:账号密码错误，请确认
+2020-01-12 09:46:40  : 826746996@qq.com登录--->Error:账号密码错误，请确认
+2020-01-12 09:46:57  : 826746996@qq.com登录--->Error:账号密码错误，请确认
+2020-01-12 09:47:35  : 826746996@qq.com登录--->Error:账号密码错误，请确认
+2020-01-12 09:47:41  : 826746996@qq.com登录--->Error:账号密码错误，请确认
+2020-01-12 09:47:43  : 826746996@qq.com登录--->Error:账号密码错误，请确认
+2020-01-12 09:48:08  : 826746996@qq.com注册--->该邮箱已经注册,不能重复注册
+2020-01-12 09:48:45  : 826746996@qq.com登录--->Error:账号密码错误，请确认
+2020-01-12 09:54:00  : 826746996@qq.com登录--->登录成功
+2020-01-12 10:23:50  : 820092698@qq.com注册--->邮件发送成功
+2020-01-12 10:24:38  : 820092698@qq.com注册--->注册成功
+2020-01-12 10:24:47  : 820092698@qq.com注册--->Error：This Session's transaction has been rolled back due to a previous exception during flush. To begin a new transaction with this Session, first issue Session.rollback(). Original exception was: (pymysql.err.IntegrityError) (1048, "Column 'sex' cannot be null")
+[SQL: INSERT INTO user_info (username, pwd, user_type, tel, email, address, graph, sex) VALUES (%(username)s, %(pwd)s, %(user_type)s, %(tel)s, %(email)s, %(address)s, %(graph)s, %(sex)s)]
+[parameters: {'username': '小星星', 'pwd': '123456', 'user_type': '0', 'tel': None, 'email': '820092698@qq.com', 'address': None, 'graph': None, 'sex': None}]
+(Background on this error at: http://sqlalche.me/e/gkpj) (Background on this error at: http://sqlalche.me/e/7s2a)
+2020-01-12 10:30:40  : 服务启动成功
+2020-01-12 10:31:31  : 820092698@qq.com注册--->邮件发送成功
+2020-01-12 10:32:11  : 820092698@qq.com注册--->Error:验证码不存在或已过期，请重新获取
+2020-01-12 10:32:17  : 820092698@qq.com注册--->Error:验证码不存在或已过期，请重新获取
+2020-01-12 10:32:18  : 820092698@qq.com注册--->Error:验证码不存在或已过期，请重新获取
+2020-01-12 10:32:18  : 820092698@qq.com注册--->Error:验证码不存在或已过期，请重新获取
+2020-01-12 10:32:18  : 820092698@qq.com注册--->Error:验证码不存在或已过期，请重新获取
+2020-01-12 10:32:19  : 820092698@qq.com注册--->Error:验证码不存在或已过期，请重新获取
+2020-01-12 10:32:30  : 820092698@qq.com注册--->Error:验证码不存在或已过期，请重新获取
+2020-01-12 10:32:31  : 820092698@qq.com注册--->Error:验证码不存在或已过期，请重新获取
+2020-01-12 10:32:31  : 820092698@qq.com注册--->Error:验证码不存在或已过期，请重新获取
+2020-01-12 10:32:36  : 820092698@qq.com注册--->注册成功
+2020-01-12 10:32:38  : 820092698@qq.com注册--->Error：This Session's transaction has been rolled back due to a previous exception during flush. To begin a new transaction with this Session, first issue Session.rollback(). Original exception was: (builtins.TypeError) string argument without an encoding
+[SQL: INSERT INTO user_info (username, pwd, user_type, tel, email, address, graph, sex) VALUES (%(username)s, %(pwd)s, %(user_type)s, %(tel)s, %(email)s, %(address)s, %(graph)s, %(sex)s)]
+[parameters: [{'graph': '', 'user_type': '0', 'address': '', 'username': '小星星', 'email': '820092698@qq.com', 'tel': '', 'pwd': '546321', 'sex': None}]] (Background on this error at: http://sqlalche.me/e/7s2a)
+2020-01-12 10:32:38  : 820092698@qq.com注册--->Error：This Session's transaction has been rolled back due to a previous exception during flush. To begin a new transaction with this Session, first issue Session.rollback(). Original exception was: (builtins.TypeError) string argument without an encoding
+[SQL: INSERT INTO user_info (username, pwd, user_type, tel, email, address, graph, sex) VALUES (%(username)s, %(pwd)s, %(user_type)s, %(tel)s, %(email)s, %(address)s, %(graph)s, %(sex)s)]
+[parameters: [{'graph': '', 'user_type': '0', 'address': '', 'username': '小星星', 'email': '820092698@qq.com', 'tel': '', 'pwd': '546321', 'sex': None}]] (Background on this error at: http://sqlalche.me/e/7s2a)
+2020-01-12 10:32:38  : 820092698@qq.com注册--->Error：This Session's transaction has been rolled back due to a previous exception during flush. To begin a new transaction with this Session, first issue Session.rollback(). Original exception was: (builtins.TypeError) string argument without an encoding
+[SQL: INSERT INTO user_info (username, pwd, user_type, tel, email, address, graph, sex) VALUES (%(username)s, %(pwd)s, %(user_type)s, %(tel)s, %(email)s, %(address)s, %(graph)s, %(sex)s)]
+[parameters: [{'graph': '', 'user_type': '0', 'address': '', 'username': '小星星', 'email': '820092698@qq.com', 'tel': '', 'pwd': '546321', 'sex': None}]] (Background on this error at: http://sqlalche.me/e/7s2a)
+2020-01-12 10:32:38  : 820092698@qq.com注册--->Error：This Session's transaction has been rolled back due to a previous exception during flush. To begin a new transaction with this Session, first issue Session.rollback(). Original exception was: (builtins.TypeError) string argument without an encoding
+[SQL: INSERT INTO user_info (username, pwd, user_type, tel, email, address, graph, sex) VALUES (%(username)s, %(pwd)s, %(user_type)s, %(tel)s, %(email)s, %(address)s, %(graph)s, %(sex)s)]
+[parameters: [{'graph': '', 'user_type': '0', 'address': '', 'username': '小星星', 'email': '820092698@qq.com', 'tel': '', 'pwd': '546321', 'sex': None}]] (Background on this error at: http://sqlalche.me/e/7s2a)
+2020-01-12 10:32:38  : 820092698@qq.com注册--->注册成功
+2020-01-12 10:35:00  : 服务启动成功
+2020-01-12 10:36:06  : 820092698@qq.com注册--->注册成功
+2020-01-12 10:39:44  : 820092698@qq.com登录--->Error:账号密码错误，请确认
+2020-01-12 10:40:11  : 820092698@qq.com登录--->登录成功
+2020-01-12 10:52:06  : 服务启动成功
+2020-01-12 10:57:03  : 服务启动成功
+2020-01-12 10:57:30  : 826746996@qq.com登录--->登录成功
+2020-01-12 10:59:26  : 服务启动成功
+2020-01-12 11:02:42  : 服务启动成功
+2020-01-12 11:06:13  : 服务启动成功
+2020-01-12 11:07:07  : 服务启动成功
+2020-01-12 11:10:20  : 服务启动成功
+2020-01-12 11:12:13  : 服务启动成功
+2020-01-12 11:15:53  : 826746996@qq.com登录--->登录成功
+2020-01-12 11:19:32  : 服务启动成功
+2020-01-12 11:26:36  : 服务启动成功
+2020-01-12 11:27:44  : 服务启动成功
+2020-01-12 11:29:53  : 服务启动成功
+2020-01-12 11:32:32  : 826746996@qq.com登录--->登录成功
+2020-01-12 11:45:18  : 服务启动成功
+2020-01-12 11:46:49  : 服务启动成功
+2020-01-12 11:47:39  : 服务启动成功
+2020-01-12 11:47:54  : 服务启动成功
+2020-01-12 11:48:14  : 826746996@qq.com登录--->登录成功
+2020-01-12 11:48:49  : 服务启动成功
+2020-01-12 11:52:59  : 服务启动成功
+2020-01-12 11:55:55  : 服务启动成功
+2020-01-12 11:57:35  : 服务启动成功
+2020-01-12 12:01:10  : 服务启动成功
+2020-01-12 12:02:28  : 服务启动成功
+2020-01-12 12:03:08  : 服务启动成功
+2020-01-12 12:04:15  : 服务启动成功
+2020-01-12 12:04:33  : 826746996@qq.com登录--->登录成功
+2020-01-12 12:05:15  : 服务启动成功
+2020-01-12 12:06:31  : 服务启动成功
+2020-01-12 12:10:20  : 服务启动成功
+2020-01-12 12:10:58  : 服务启动成功
+2020-01-12 12:55:22  : 服务启动成功
+2020-01-12 12:55:45  : 826746996@qq.com登录--->登录成功
+2020-01-12 13:07:15  : 服务启动成功
+2020-01-12 13:08:22  : 服务启动成功
+2020-01-12 14:03:11  : 服务启动成功
+2020-01-12 14:05:08  : 826746996@qq.com登录--->登录成功
+2020-01-12 14:07:09  : 服务启动成功
+2020-01-12 14:09:28  : 服务启动成功
+2020-01-12 14:10:34  : 服务启动成功
+2020-01-12 14:11:53  : 服务启动成功
+2020-01-12 14:14:55  : 服务启动成功
+2020-01-12 14:15:13  : 服务启动成功
+2020-01-12 14:15:57  : 服务启动成功
+2020-01-12 14:20:48  : 服务启动成功
+2020-01-12 14:21:16  : 826746996@qq.com登录--->登录成功
+2020-01-12 14:22:47  : 服务启动成功
+2020-01-12 14:23:18  : 服务启动成功
+2020-01-12 14:31:30  : 服务启动成功
+2020-01-12 17:07:22  : 826746996@qq.com登录--->登录成功
+2020-01-12 17:28:26  : 826746996@qq.com登录--->登录成功
+2020-01-12 17:42:47  : 服务启动成功
+2020-01-12 17:43:45  : 服务启动成功
+2020-01-12 17:44:52  : 服务启动成功
+2020-01-12 17:57:18  : 服务启动成功
+2020-01-12 17:59:12  : 服务启动成功
+2020-01-12 18:01:35  : 服务启动成功
+2020-01-12 21:16:13  : 服务启动成功
+2020-01-12 21:19:40  : 服务启动成功
+2020-01-12 21:30:56  : 服务启动成功
+2020-01-12 23:02:26  : 服务启动成功
+2020-01-12 23:12:17  : 服务启动成功
+2020-01-12 23:15:08  : 服务启动成功
+2020-01-12 23:15:33  : 服务启动成功
+2020-01-12 23:18:33  : 服务启动成功
+2020-01-12 23:20:43  : 服务启动成功

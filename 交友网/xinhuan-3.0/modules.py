@@ -30,7 +30,7 @@ class User_info(db.Model):
     address=db.Column(db.String(20))
     graph=db.Column(db.Binary(200)) 
     sex=db.Column(db.String(2))   
-    def __init__(self,uid=None,sex=None,username=None,pwd=None,user_type="0",tel=None,address=None,graph=None,email=None):
+    def __init__(self,uid=None,sex="",username="",pwd="",user_type="0",tel="",address="",graph="",email=""):
         self.uid=uid
         self.username=username
         self.pwd=pwd
@@ -39,6 +39,8 @@ class User_info(db.Model):
         self.address=address
         self.graph=graph
         self.email=email
+        self.sex=sex
+
 
 class User_loginlogs(db.Model):
     __tablename__="user_loginlogs"
@@ -61,16 +63,41 @@ class Vertify_code(db.Model):
         self.email=email
         self.code=code        
 
-# db.create_all()
-# @app.route('/')
-# def test():
-#     result=db.session.query(User_info).first()
-#     # db.session.add(User_info('dd','dd'))
+class User_life_circle(db.Model):
+    __tablename__="user_life_circle"
+    id=db.Column(db.Integer,primary_key=True)
+    uid=db.Column(db.String(20))
+    content=db.Column(db.String(2000))
+    posted_time=db.Column(db.DateTime)
+    def __init__(self,uid,content):
+        self.uid=uid
+        self.content=content
+
+class User_circle_comment(db.Model):
+    __tablename__="user_circle_comment"
+    id=db.Column(db.Integer,primary_key=True)
+    uid=db.Column(db.String(10))
+    circle_id=db.Column(db.String(10))
+    comment=db.Column(db.String(500))
+    kiss=db.Column(db.Integer)
+    inittime=db.Column(db.DateTime)
+    def __init__(self,uid,circle_id,comment,kiss):
+        self.uid=uid
+        self.circle_id=circle_id
+        self.comment=comment
+        self.kiss=kiss
+
+class User_sign_in(db.Model):
+    __tablename__="user_sign_in"
+    id=db.Column(db.Integer,primary_key=True)
+    uid=db.Column(db.String(10))
+    kiss_count=db.Column(db.Integer)
+    kiss_day=db.Column(db.Date)
+    def __init__(self,uid,kiss_count,kiss_day):
+        self.uid=uid
+        self.kiss_count=kiss_count
+        self.kiss_day=kiss_day
     
-#     print(result.id,result.loguid)
-#     return "Hello world"
 
 
-# if __name__ == "__main__":
-#     app.run(debug=False,port=5001)
 

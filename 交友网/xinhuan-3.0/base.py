@@ -1,6 +1,8 @@
 
 from modules import *
 import datetime
+from sqlalchemy import func,text
+from sqlalchemy.orm import aliased
 
 def email_exist(email):
     """
@@ -52,4 +54,65 @@ def insert_user_info(username,pwd,email):
     except Exception as e:
         return "Error："+str(e)
     
+def get_info(uid):
+    return User_info.query.filter(User_info.uid==uid).first()
+
+def get_kiss(uid):
+    return User_sign_in.query.filter(User_sign_in.uid==uid).order_by(User_sign_in.kiss_day.desc()).all()
+
+def insert_kiss(uid,kiss_cout,kiss_day=datetime.datetime.now()):
+    try:
+        print(datetime.date)
+        db.session.add(User_sign_in(uid,kiss_cout,kiss_day))     
+    except Exception as e:
+        return "Error："+str(e)
+
+def get_circle(uid=None,sort_type=None):
+    """
+        多表关联,返回对象列表
+    """
+    query_list=(1==1)
+    sort_text="User_life_circle_1_posted_time desc"
+    a=aliased(User_life_circle)
+    b=aliased(User_circle_comment)
+    c=aliased(User_info)
+    d=aliased(User_sign_in)
+    if uid:
+        query_list=(a.uid==uid)   
+    if sort_type=="comment":
+        sort_text="comment_count  desc"
+    result=db.session.query(c.uid,c.user_type,c.username,a.content,a.posted_time,
+        db.func.count(b.uid).label("comment_count"),db.func.sum(db.func.ifnull(d.kiss_count,0)).label("kiss_count")
+        # db.func.sum(db.func.ifnull(b.kiss,0)).label("kiss_count")
+        ).outerjoin(b,
+        a.id==b.circle_id).outerjoin(c,
+        a.uid==c.uid)\
+        .outerjoin(d,d.uid==a.uid).filter(query_list).group_by(c.uid,
+        c.user_type,c.username,a.content,
+        a.posted_time).order_by(text(sort_text)).all()
+    # if sort_type=="comment":
+    #     result=db.session.query(c.uid,c.user_type,c.username,a.content,a.posted_time,
+    #     db.func.count(b.uid).label("comment_count"),
+    #     db.func.sum(db.func.ifnull(b.kiss,0)).label("kiss_count")).outerjoin(b,
+    #     a.id==b.circle_id).outerjoin(c,
+    #     a.uid==c.uid).filter(query_list).group_by(c.uid,
+    #     c.user_type,c.username,a.content,
+    #     a.posted_time).order_by(text("db.func.count(b.uid).desc()")).all()
+    # else:
+    #     result=db.session.query(c.uid,c.user_type,c.username,a.content,a.posted_time,
+    #     db.func.count(b.uid).label("comment_count"),
+    #     db.func.sum(db.func.ifnull(b.kiss,0)).label("kiss_count")).outerjoin(b,
+    #     a.id==b.circle_id).outerjoin(c,
+    #     a.uid==c.uid).filter(query_list).group_by(c.uid,
+    #     c.user_type,c.username,a.content,
+    #     a.posted_time).order_by(text(sort_text)).all()
+    # print(result)
+    return result
+
+
+# get_circle(sort_type="comment")
+
+
+  
+
     

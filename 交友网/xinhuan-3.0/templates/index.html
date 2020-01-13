@@ -1,5 +1,4 @@
- 
- 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,6 +10,11 @@
   <link rel="stylesheet" href="/static/layui/css/layui.css">
   <link rel="stylesheet" href="/static/css/global.css">
 </head>
+<style>
+    #new,#hot:hover{
+        cursor: pointer;
+  }
+</style>
 <body>
 
 <div class="fly-header layui-bg-black">
@@ -30,7 +34,7 @@
       </li> -->
     </ul>
     
-    <ul class="layui-nav fly-nav-user">
+    <ul class="layui-nav fly-nav-user" id="no" style="display: none">
       
       <!-- 未登入的状态 -->
       <li class="layui-nav-item">
@@ -48,25 +52,24 @@
       <li class="layui-nav-item layui-hide-xs">
         <a href="/app/weibo/" onclick="layer.msg('正在通过微博登入', {icon:16, shade: 0.1, time:0})" title="微博登入" class="iconfont icon-weibo"></a>
       </li>
-      
-      <!-- 登入后的状态 -->
-      <!--
+    </ul>
+    <ul class="layui-nav fly-nav-user" id="yes" style="display: none">
+      <!-- 登入后的状态 -->      
       <li class="layui-nav-item">
         <a class="fly-nav-avatar" href="javascript:;">
-          <cite class="layui-hide-xs">贤心</cite>
-          <i class="iconfont icon-renzheng layui-hide-xs" title="认证信息：layui 作者"></i>
-          <i class="layui-badge fly-badge-vip layui-hide-xs">VIP3</i>
-          <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg">
+          <cite class="layui-hide-xs" id="username"></cite>
+          <i class="iconfont icon-renzheng layui-hide-xs"></i>
+          <i class="layui-badge fly-badge-vip layui-hide-xs" id="user_type"></i>
+          <img id="user_img" >
         </a>
         <dl class="layui-nav-child">
-          <dd><a href="user/set.html"><i class="layui-icon">&#xe620;</i>基本设置</a></dd>
-          <dd><a href="user/message.html"><i class="iconfont icon-tongzhi" style="top: 4px;"></i>我的消息</a></dd>
-          <dd><a href="user/home.html"><i class="layui-icon" style="margin-left: 2px; font-size: 22px;">&#xe68e;</i>我的主页</a></dd>
+          <dd><a href="/user/set"><i class="layui-icon">&#xe620;</i>基本设置</a></dd>
+          <!-- <dd><a href="/user/message.html"><i class="iconfont icon-tongzhi" style="top: 4px;"></i>我的消息</a></dd> -->
+          <dd><a href="/user/home"><i class="layui-icon" style="margin-left: 2px; font-size: 22px;">&#xe68e;</i>我的主页</a></dd>
           <hr style="margin: 5px 0;">
-          <dd><a href="/user/logout/" style="text-align: center;">退出</a></dd>
+          <dd ><a a href="/user/logout" style="text-align: center;">退出</a></dd>
         </dl>
-      </li>
-      -->
+      </li>     
     </ul>
   </div>
 </div>
@@ -78,7 +81,7 @@
       <li><a href="#">提问</a></li>       
       <li><a href="#">建议</a></li> 
       <li><a href="#">公告</a></li> 
-      <li><a href="#">动态</a></li> 
+      <li><a id="trends">动态</a></li> 
       <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><span class="fly-mid"></span></li> 
       
       <!-- 用户登入后显示 -->
@@ -88,430 +91,28 @@
     
     <div class="fly-column-right layui-hide-xs"> 
       <span class="fly-search"><i class="layui-icon"></i></span> 
-      <a href="#" class="layui-btn">发表动态</a> 
+      <a href="/user/publishing" class="layui-btn">发表动态</a> 
     </div> 
     <!-- <div class="layui-hide-sm layui-show-xs-block" style="margin-top: -10px; padding-bottom: 10px; text-align: center;"> 
       <a href="#" class="layui-btn">发表生活感言</a>  -->
     </div> 
   </div>
 </div>
-
-<div class="layui-container">
+<iframe src="" frameborder="0"></iframe>
+<div class="layui-container" id="main">
   <div class="layui-row layui-col-space15">
     <div class="layui-col-md8">
       <div class="fly-panel" style="height: 480px;overflow: hidden">
         <div class="fly-panel-title fly-filter" >          
           <a href="#signin" class="layui-hide-sm layui-show-xs-block fly-right" id="LAY_goSignin" style="color: #FF5722;">去签到</a>
           <span class="fly-filter-right layui-hide-xs">
-            <a href="" class="layui-this">按最新</a>
+            <a  class="layui-this" id="new">按最新</a>
             <span class="fly-mid"></span>
-            <a href="">按热议</a>
+            <a id="hot">按热议</a>
           </span>
         </div>
-        <ul class="fly-list" id="express" style="height: 480px;overflow-y:scroll;" >
-          <li>
-            <a href="/user/home" class="fly-avatar">
-              <img src="../static/images/avatar/1.jpg" alt="贤心">
-            </a>
-            <h2>
-              <a class="layui-badge">动态</a>
-              <a href="/">test</a>
-            </h2>
-            <div class="fly-list-info">
-              <a href="/user/home" link>
-                <cite>心欢</cite>
-                <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
-                <i class="layui-badge fly-badge-vip">VIP3</i>
-              </a>
-              <span>刚刚</span>
-              
-              <span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻"><i class="iconfont icon-kiss"></i> 60</span>              
-              <span class="fly-list-nums"> 
-                <i class="iconfont icon-pinglun1" title="回答"></i> 66
-              </span>
-            </div>
-            <div class="fly-list-badge">
-              <!--
-              <span class="layui-badge layui-bg-black">置顶</span>
-              <span class="layui-badge layui-bg-red">精帖</span>
-              -->
-            </div>
-          </li>
-          <li>
-            <a href="user/home.html" class="fly-avatar">
-              <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" alt="贤心">
-            </a>
-            <h2>
-              <a class="layui-badge">公告</a>
-              <a href="jie/detail.html">test</a>
-            </h2>
-            <div class="fly-list-info">
-              <a href="user/home.html" link>
-                <cite>fan</cite>
-                <!--
-                <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
-                <i class="layui-badge fly-badge-vip">VIP3</i>
-                -->
-              </a>
-              <span>2017-11-21</span>
-              
-              <span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻"><i class="iconfont icon-kiss"></i> 60</span>
-              <!--<span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>-->
-              <span class="fly-list-nums"> 
-                <i class="iconfont icon-pinglun1" title="回答"></i> 66
-              </span>
-            </div>
-            <div class="fly-list-badge">
-              <!--
-              <span class="layui-badge layui-bg-black">置顶</span>
-              <span class="layui-badge layui-bg-red">精帖</span>
-              -->
-            </div>
-          </li>
-          <li>
-            <a href="user/home.html" class="fly-avatar">
-              <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" alt="贤心">
-            </a>
-            <h2>
-              <a class="layui-badge">公告</a>
-              <a href="jie/detail.html">dfet</a>
-            </h2>
-            <div class="fly-list-info">
-              <a href="user/home.html" link>
-                <cite>新欢</cite>
-                <!--
-                <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
-                <i class="layui-badge fly-badge-vip">VIP3</i>
-                -->
-              </a>
-              <span>刚刚</span>
-              
-              <span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻"><i class="iconfont icon-kiss"></i> 60</span>
-              <!--<span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>-->
-              <span class="fly-list-nums"> 
-                <i class="iconfont icon-pinglun1" title="回答"></i> 66
-              </span>
-            </div>
-            <div class="fly-list-badge">
-              <!--
-              <span class="layui-badge layui-bg-black">置顶</span>
-              <span class="layui-badge layui-bg-red">精帖</span>
-              -->
-            </div>
-          </li>
-          <li>
-            <a href="user/home" class="fly-avatar">
-              <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" alt="贤心">
-            </a>
-            <h2>
-              <a class="layui-badge">公告</a>
-              <a href="jie/detail.html">dfd</a>
-            </h2>
-            <div class="fly-list-info">
-              <a href="/home" link>
-                <cite>dfd</cite>
-                <!--
-                <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
-                <i class="layui-badge fly-badge-vip">VIP3</i>
-                -->
-              </a>
-              <span>刚刚</span>
-              
-              <span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻"><i class="iconfont icon-kiss"></i> 60</span>
-              <!--<span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>-->
-              <span class="fly-list-nums"> 
-                <i class="iconfont icon-pinglun1" title="回答"></i> 66
-              </span>
-            </div>
-            <div class="fly-list-badge">
-              <!--
-              <span class="layui-badge layui-bg-black">置顶</span>
-              <span class="layui-badge layui-bg-red">精帖</span>
-              -->
-            </div>
-          </li>
-          <li>
-            <a href="user/home.html" class="fly-avatar">
-              <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" alt="贤心">
-            </a>
-            <h2>
-              <a class="layui-badge">公告</a>
-              <a href="jie/detail.html">dfadfadsfsdfdasfdsafsd</a>
-            </h2>
-            <div class="fly-list-info">
-              <a href="user/home.html" link>
-                <cite>dfd</cite>
-                <!--
-                <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
-                <i class="layui-badge fly-badge-vip">VIP3</i>
-                -->
-              </a>
-              <span>2017-11-22</span>
-              
-              <span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻"><i class="iconfont icon-kiss"></i> 60</span>
-              <!--<span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>-->
-              <span class="fly-list-nums"> 
-                <i class="iconfont icon-pinglun1" title="回答"></i> 66
-              </span>
-            </div>
-            <div class="fly-list-badge">
-              <!--
-              <span class="layui-badge layui-bg-black">置顶</span>
-              <span class="layui-badge layui-bg-red">精帖</span>
-              -->
-            </div>
-          </li>
-          <li>
-              <a href="user/home.html" class="fly-avatar">
-                <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" alt="贤心">
-              </a>
-              <h2>
-                <a class="layui-badge">公告</a>
-                <a href="jie/detail.html">dafasdfsdfsafsad</a>
-              </h2>
-              <div class="fly-list-info">
-                <a href="user/home.html" link>
-                  <cite>dfdd</cite>
-                  <!--
-                  <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
-                  <i class="layui-badge fly-badge-vip">VIP3</i>
-                  -->
-                </a>
-                <span>2017-11-23</span>
-                
-                <span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻"><i class="iconfont icon-kiss"></i> 60</span>
-                <!--<span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>-->
-                <span class="fly-list-nums"> 
-                  <i class="iconfont icon-pinglun1" title="回答"></i> 66
-                </span>
-              </div>
-              <div class="fly-list-badge">
-                <!--
-                <span class="layui-badge layui-bg-black">置顶</span>
-                <span class="layui-badge layui-bg-red">精帖</span>
-                -->
-              </div>
-            </li>
-            <li>
-                <a href="user/home.html" class="fly-avatar">
-                  <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" alt="贤心">
-                </a>
-                <h2>
-                  <a class="layui-badge">公告</a>
-                  <a href="jie/detail.html">adfsdafsdafs</a>
-                </h2>
-                <div class="fly-list-info">
-                  <a href="user/home.html" link>
-                    <cite>dd</cite>
-                    <!--
-                    <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
-                    <i class="layui-badge fly-badge-vip">VIP3</i>
-                    -->
-                  </a>
-                  <span>2017-11-24</span>
-                  
-                  <span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻"><i class="iconfont icon-kiss"></i> 60</span>
-                  <!--<span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>-->
-                  <span class="fly-list-nums"> 
-                    <i class="iconfont icon-pinglun1" title="回答"></i> 66
-                  </span>
-                </div>
-                <div class="fly-list-badge">
-                  <!--
-                  <span class="layui-badge layui-bg-black">置顶</span>
-                  <span class="layui-badge layui-bg-red">精帖</span>
-                  -->
-                </div>
-              </li>
-              <li>
-                  <a href="user/home.html" class="fly-avatar">
-                    <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" alt="贤心">
-                  </a>
-                  <h2>
-                    <a class="layui-badge">公告</a>
-                    <a href="jie/detail.html">dfasdfsdafadf</a>
-                  </h2>
-                  <div class="fly-list-info">
-                    <a href="user/home.html" link>
-                      <cite>dfd</cite>
-                      <!--
-                      <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
-                      <i class="layui-badge fly-badge-vip">VIP3</i>
-                      -->
-                    </a>
-                    <span>2017-11-25</span>
-                    
-                    <span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻"><i class="iconfont icon-kiss"></i> 60</span>
-                    <!--<span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>-->
-                    <span class="fly-list-nums"> 
-                      <i class="iconfont icon-pinglun1" title="回答"></i> 66
-                    </span>
-                  </div>
-                  <div class="fly-list-badge">
-                    <!--
-                    <span class="layui-badge layui-bg-black">置顶</span>
-                    <span class="layui-badge layui-bg-red">精帖</span>
-                    -->
-                  </div>
-                </li>
-                <li>
-                    <a href="user/home.html" class="fly-avatar">
-                      <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" alt="贤心">
-                    </a>
-                    <h2>
-                      <a class="layui-badge">公告</a>
-                      <a href="jie/detail.html">dafdsfasdgsa</a>
-                    </h2>
-                    <div class="fly-list-info">
-                      <a href="user/home.html" link>
-                        <cite>dfd</cite>
-                        <!--
-                        <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
-                        <i class="layui-badge fly-badge-vip">VIP3</i>
-                        -->
-                      </a>
-                      <span>2017-11-26</span>
-                      
-                      <span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻"><i class="iconfont icon-kiss"></i> 60</span>
-                      <!--<span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>-->
-                      <span class="fly-list-nums"> 
-                        <i class="iconfont icon-pinglun1" title="回答"></i> 66
-                      </span>
-                    </div>
-                    <div class="fly-list-badge">
-                      <!--
-                      <span class="layui-badge layui-bg-black">置顶</span>
-                      <span class="layui-badge layui-bg-red">精帖</span>
-                      -->
-                    </div>
-                  </li>
-                  <li>
-                      <a href="user/home.html" class="fly-avatar">
-                        <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" alt="贤心">
-                      </a>
-                      <h2>
-                        <a class="layui-badge">公告</a>
-                        <a href="jie/detail.html">dfasgsdgsdgsagsdgsd</a>
-                      </h2>
-                      <div class="fly-list-info">
-                        <a href="user/home.html" link>
-                          <cite>df</cite>
-                          <!--
-                          <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
-                          <i class="layui-badge fly-badge-vip">VIP3</i>
-                          -->
-                        </a>
-                        <span>2017-11-27</span>
-                        
-                        <span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻"><i class="iconfont icon-kiss"></i> 60</span>
-                        <!--<span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>-->
-                        <span class="fly-list-nums"> 
-                          <i class="iconfont icon-pinglun1" title="回答"></i> 66
-                        </span>
-                      </div>
-                      <div class="fly-list-badge">
-                        <!--
-                        <span class="layui-badge layui-bg-black">置顶</span>
-                        <span class="layui-badge layui-bg-red">精帖</span>
-                        -->
-                      </div>
-                    </li>
-                    <li>
-                        <a href="user/home.html" class="fly-avatar">
-                          <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" alt="贤心">
-                        </a>
-                        <h2>
-                          <a class="layui-badge">公告</a>
-                          <a href="jie/detail.html">dfasgsdgsdagasdgsda</a>
-                        </h2>
-                        <div class="fly-list-info">
-                          <a href="user/home.html" link>
-                            <cite>ee</cite>
-                            <!--
-                            <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
-                            <i class="layui-badge fly-badge-vip">VIP3</i>
-                            -->
-                          </a>
-                          <span>2017-11-28</span>
-                          
-                          <span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻"><i class="iconfont icon-kiss"></i> 60</span>
-                          <!--<span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>-->
-                          <span class="fly-list-nums"> 
-                            <i class="iconfont icon-pinglun1" title="回答"></i> 66
-                          </span>
-                        </div>
-                        <div class="fly-list-badge">
-                          <!--
-                          <span class="layui-badge layui-bg-black">置顶</span>
-                          <span class="layui-badge layui-bg-red">精帖</span>
-                          -->
-                        </div>
-                      </li>
-                      <li>
-                          <a href="user/home.html" class="fly-avatar">
-                            <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" alt="贤心">
-                          </a>
-                          <h2>
-                            <a class="layui-badge">公告</a>
-                            <a href="jie/detail.html">dsagsgsgsdfsdfsdfds</a>
-                          </h2>
-                          <div class="fly-list-info">
-                            <a href="user/home.html" link>
-                              <cite>df</cite>
-                              <!--
-                              <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
-                              <i class="layui-badge fly-badge-vip">VIP3</i>
-                              -->
-                            </a>
-                            <span>2017-11-29</span>
-                            
-                            <span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻"><i class="iconfont icon-kiss"></i> 60</span>
-                            <!--<span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>-->
-                            <span class="fly-list-nums"> 
-                              <i class="iconfont icon-pinglun1" title="回答"></i> 66
-                            </span>
-                          </div>
-                          <div class="fly-list-badge">
-                            <!--
-                            <span class="layui-badge layui-bg-black">置顶</span>
-                            <span class="layui-badge layui-bg-red">精帖</span>
-                            -->
-                          </div>
-                        </li>
-                        <li>
-                            <a href="user/home.html" class="fly-avatar">
-                              <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" alt="贤心">
-                            </a>
-                            <h2>
-                              <a class="layui-badge">公告</a>
-                              <a href="jie/detail.html">dasgadsgasdfgsdafsdafsdfsdafsd</a>
-                            </h2>
-                            <div class="fly-list-info">
-                              <a href="user/home.html" link>
-                                <cite>vv</cite>
-                                <!--
-                                <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
-                                <i class="layui-badge fly-badge-vip">VIP3</i>
-                                -->
-                              </a>
-                              <span>2017-11-30</span>
-                              
-                              <span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻"><i class="iconfont icon-kiss"></i> 60</span>
-                              <!--<span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>-->
-                              <span class="fly-list-nums"> 
-                                <i class="iconfont icon-pinglun1" title="回答"></i> 66
-                              </span>
-                            </div>
-                            <div class="fly-list-badge">
-                              <!--
-                              <span class="layui-badge layui-bg-black">置顶</span>
-                              <span class="layui-badge layui-bg-red">精帖</span>
-                              -->
-                            </div>
-                          </li>
-        </ul>
+        <ul class="fly-list" id="express" style="height: 480px;overflow-y:scroll;" ></ul>
       </div>
-
     </div>
     <div class="layui-col-md4">
 
@@ -560,8 +161,6 @@
           </li>
         </ul>
       </div>
-
-
       <div class="fly-panel fly-signin">
         <div class="fly-panel-title">
           签到
@@ -569,11 +168,11 @@
           <a href="javascript:;" class="fly-link" id="LAY_signinHelp">说明</a>
           <i class="fly-mid"></i> 
           <a href="javascript:;" class="fly-link" id="LAY_signinTop">活跃榜<span class="layui-badge-dot"></span></a>
-          <span class="fly-signin-days">已连续签到<cite>16</cite>天</span>
+          <span class="fly-signin-days">已连续签到<cite id="kiss_days">0</cite>天</span>
         </div>
         <div class="fly-panel-main fly-signin-main">
           <button class="layui-btn layui-btn-danger" id="LAY_signin">今日签到</button>
-          <span>可获得<cite>5</cite>飞吻</span>
+          <span>可获得<cite id="kiss_count">0</cite>飞吻</span>
           
           <!-- 已签到状态 -->
           <!--
@@ -593,21 +192,139 @@
 </div>
 
 <script src="/static/layui/layui.js"></script>
+<script src="/static/mods/index.js"></script>
 <script src="/static/js/jquery-3.4.1.min.js"></script>
+<script src="/static/js/common.js"></script>
 <script>
-$(document).ready(function(){
-        // layer.msg('dddd')
-        var marginTop =0;
+$("#trends").bind("click",function(){
+    $("#main").load("/templates/set.html")
+})
+$(function(){
+// 获取个人信息
+$.ajax({
+          url:'/user_info',
+          type:'post',
+          async:true,
+          dataType:'json',
+          // contentType:'application/json;charset=utf-8',
+          // data:JSON.stringify({"1":"uid"}),//JSON字符串
+          success:function(response){
+              // console.log(response);
+              //在响应成功后 恢复摁钮
+              // var data=JSON.stringify(response)
+              var data=response             
+              if (data.uid==""){
+                $('#no').show();
+              }
+              else{                
+                var vip="VIP"+data.user_type;
+                $("#username").text(data.username);
+                $("#user_type").text(vip);
+                var img_url="/static/images/avatar/"+data.uid+".jpg";
+                $("#user_img").attr("src",img_url)
+                $("#user_img").attr("onerror","this.src='/static/images/avatar/default.png'")
+                $('#yes').show();
+              }             
+          },
+          // error:function(){              
+          //     $('#btn').removeAttr('disabled');
+          // },
+          // beforeSend:function(){
+          //     //防止用户重复提交 
+          //     //在发送请求之前 禁用摁钮
+          //     $('#btn').attr('disabled','disabled');
+          //     $('#loading').show();
+          // }
+      })
+// 获取个人签到数据
+$.ajax({
+          url:'/user/kiss',
+          type:'post',
+          async:true,
+          data:JSON.stringify({"type":"query"}),
+          dataType:'json',
+          contentType:"application/json;charset=utf-8",
+          success:function(res){
+            // var data=res;
+            console.log(res.status,res.signed)
+            if(res.status=="1000"&&res.signed=="true"){
+              console.log(res)
+              $("#LAY_signin").text("今日已签到");
+              $("#LAY_signin").addClass('layui-btn-disabled');
+              $("#kiss_days").text(res.days);
+              $("#kiss_count").text(res.experience);
+            }
+          }       
+      })
+get_circle("new");
+// 获取动态信息
+$("#new").bind("click",function(){
+  $("#new~a").removeClass("layui-this");
+  $("#new").addClass("layui-this");
+  clearInterval(timeer);
+  get_circle("new");
+})
+$("#hot").bind("click",function(){
+  $("#new").removeClass("layui-this");
+  $("#hot").addClass("layui-this");
+  clearInterval(timeer);
+  get_circle("comment");
+})
+function get_circle(sort_type){
+  $.ajax({
+  url:"/user/circle",
+  type:"post",
+  dataType:"json",
+  async:true,
+  data:{"sort_type":sort_type},
+  success:function(response){
+    var data=response; 
+    console.log(data)
+
+    // 先删除子元素
+    $("#express").empty();
+    $.each(data,function(index,obj){  
+    var html='<li><a href="/user/home" class="fly-avatar">';
+    html+="<img id=img_"+index+"></a>";   
+    html+='<h2><a class="layui-badge">动态</a><a href="/">'+obj.content+'</a></h2>'; 
+    html+='<div class="fly-list-info"><a href="/user/home" link>';  
+    html+='<cite>'+obj.username+'</cite>';
+    html+='<i class="iconfont icon-renzheng"></i>';
+    html+='<i class="layui-badge fly-badge-vip">VIP'+obj.user_type+'</i></a>';
+    html+='<span>'+obj.posted_time+'</span>';
+    html+='<span class="fly-list-kiss layui-hide-xs" title="飞吻">';
+    html+='<i class="iconfont icon-kiss"></i> '+obj.kiss_count+'</span>';
+    html+='<span class="fly-list-nums">';
+    html+='<i class="iconfont icon-pinglun1" title="回答"></i> '+obj.comment_count+'</span></div></li>'
+    var img_url="/static/images/avatar/"+data.uid+".jpg";
+    $("#express").append(html);
+    $('#express img').attr("src",img_url);
+    $('#express img').attr("onerror","this.src='/static/images/avatar/default.png'");
+    })  
+  //  加入滚动动画
+    animate();
+  }
+})
+}  
+})
+
+</script>
+
+<script>
+function animate(){
+  // layer.msg('dddd')
+  var marginTop =0;
         var bool=false;
         // 判断有多少个li 
-        var lengli = $("#express li").length -2;
-        setInterval(function(){
+        var lengli = $("#express li").length+1;
+        console.log("aa",lengli)
+        timeer=setInterval(function(){
             if(bool) return;//判断运行和停止
             $("#express li:first").animate({marginTop:marginTop--},0,function(){
                 if(!($(this).is(":animated"))) {    //判断是否有一个动画节点
                     if ((-marginTop) >= $(this).height()*lengli) {  //判断移出位置是否超过高度
-                        $(this).css("margin", "0");
-                        $(this).appendTo($("#express"));  //把第一个节点移到ul后面
+                        $(this).css("margin", "0");                        
+                        // $(this).appendTo($("#express"));  //把第一个节点移到ul后面
                         marginTop = 0;      //重新设置移动数值
                     }
                 }
@@ -619,8 +336,7 @@ $(document).ready(function(){
         $("#express").mouseout(function(){
             bool=false;
         });
-
-    });
+}
 </script>
 <script>
 layui.cache.page = 'user';
