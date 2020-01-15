@@ -170,7 +170,7 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function(
               form.on('submit(uploadImages)', function(data){
                 var field = data.field;
                 if(!field.image) return image.focus();
-                layui.focusInsert(editor[0], 'img['+ field.image + '] ');
+                layui.focusInsert(editor[0], 'img['+ field.image +']');
                 layer.close(index);
               });
             }
@@ -272,7 +272,8 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function(
         var rel =  /^(http(s)*:\/\/)\b(?!(\w+\.)*(sentsin.com|layui.com))\b/.test(href.replace(/\s/g, ''));
         return '<a href="'+ href +'" target="_blank"'+ (rel ? ' rel="nofollow"' : '') +'>'+ (text||href) +'</a>';
       }).replace(html(), '\<$1 $2\>').replace(html('/'), '\</$1\>') //转移HTML代码
-      .replace(/\n/g, '<br>') //转义换行   
+      .replace(/\n/g, '<br>') //转义换行  
+      console.log(content);
       return content;
     }
     
@@ -348,9 +349,7 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function(
     console.log(othis)
     if(othis.hasClass(DISABLED)) return;
 
-    fly.json('/user/kiss', JSON.stringify({
-      "type":"add"
-    }), function(res){
+    fly.json('/user/kiss',{"type":"add"}, function(res){
       // var data=JSON.stringify(res)
       console.log("res")
        console.log(res)

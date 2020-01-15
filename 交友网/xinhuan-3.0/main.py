@@ -3,14 +3,14 @@
 
 
 from flask import Flask, render_template,session,url_for
-from flask import request, make_response,jsonify,redirect,flash
+from flask import request, make_response,jsonify,redirect,flash,send_from_directory
 from mysql01 import Mysql01
 from sendemail import *
 import config
 from Islogin import need_login
 import time,datetime
 from modules import *
-import base
+import base,os
 
 #导入sqlalchemy
 from flask_sqlalchemy import SQLAlchemy
@@ -28,9 +28,16 @@ from rizhi import logging
 # app = Flask(__name__)
 
 app.config.from_object(config)#加盐
+app.config.update(
+    SECRET_KEY = os.urandom(24),
+    # 上传文件夹
+    UPLOAD_FOLDER = 'static/upload/',
+    # 最大上传大小，当前16MB
+    MAX_CONTENT_LENGTH = 16 * 1024 * 1024
+)
 
 my01 = Mysql01()
-
+my01.in_up_de("update user_info set ")
 
 # 首页
 @app.route('/', methods=['GET', 'POST'])
@@ -50,12 +57,57 @@ def self_set():
     else:
         return ""
 
+# 写入评论
+@app.route('/jie/reply/',methods=['GET','POST'])
+def reply():
+    data=request.form
+    uid=session.get("uid")
+    # comment=data.get("content")
+    circle_id=data.get("circle_id")
+    comment=data.get("comment")
+    dict01={}
+    # 写入数据库
+    result=base.User_circle_comment(uid,circle_id,comment)
+    if result:
+        dict01={"status":"1000","Msg":"提交成功"}
+    else:
+        dict01={"status":"1002","Msg":"Error:"+result}
+    return dict01
+    
+
+
+# 上传图片
+@app.route('/api/upload/',methods=['GET','POST'])
+def updimg():
+    if request.method=="POST":
+        f=request.files.get("file")  
+        filename=datetime.datetime.now().strftime('%Y%m%d%H%M%S')+'.'+f.filename.split('.')[1]
+        # 自动创建上传文件夹
+        if not os.path.exists(app.config['UPLOAD_FOLDER']):
+            os.makedirs(app.config['UPLOAD_FOLDER'])
+        # 保存图片
+        f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        url ='/'+app.config['UPLOAD_FOLDER']+filename  
+        return jsonify({"status":"0","url":url})        
 # 发表个人动态
 
 @app.route('/user/publishing',methods=['GET','POST'])
 def publishing():
     if request.method=="GET":
         return  render_template("add.html")
+    else:
+        data=request.form
+        class_type=data.get("class")
+        title=data.get("title")
+        content=data.get("content")
+        dict01={}
+        # 写入数据
+        result=base.publishing(session.get("uid"),class_type,title,content)
+        if result:
+            dict01={"status":"1002","Msg":result,"value":""}
+        else:
+            dict01={"status":"1000","Msg":"发表成功","value":""}
+    return redirect("/")
 
 # 获取个人信息
 @app.route('/user_info',methods=['GET', 'POST'])
@@ -101,8 +153,12 @@ def logout():
         session.clear()
         return redirect("/")# 回到首页
 
-# 首页动态信息
+# 建设中页面
+@app.route('/building')
+def building():
+    return render_template('Building.html')
 
+# 首页动态信息
 @app.route('/user/circle',methods=['GET','POST'])
 def circle():
     if request.method=="POST":
@@ -115,13 +171,21 @@ def circle():
             result=base.get_circle(session.get("uid"))
         for item in result:  
             dict_info={}  
+            dict_info["id"]=item.id
             dict_info["uid"]=item.uid       
             dict_info["username"]=item.username
-            dict_info["user_type"]=item.user_type        
+            dict_info["user_type"]=item.user_type   
+            dict_info["class_type"]=item.class_type
+            dict_info["title"]=item.title
+            if not item.title:
+                dict_info["title"]=item.content
+                if len(item.content)>10:
+                    dict_info["title"]=item.content[:10]+'...'            
             dict_info["content"]=item.content
             dict_info["comment_count"]=item.comment_count
             dict_info["kiss_count"]=item.kiss_count
             dict_info["posted_time"]=item.posted_time.strftime("%Y-%m-%d %H:%M:%S")
+            
             list_info.append(dict_info)
             del dict_info
     return jsonify(list_info)
@@ -159,7 +223,7 @@ def kiss():
             add_kiss=5
            
         # 如果存在需判断是否已经签到了,用于首页加载        
-        if request.get_json().get("type")=="query":
+        if request.form.get("type")=="query":
             if datetime.datetime.strftime(result[0].kiss_day,'%Y-%m-%d')==datetime.datetime.now().strftime("%Y-%m-%d"):
                 data={"status":"1000","signed":"true","experience":add_kiss,"days":days}
             else:
@@ -174,6 +238,23 @@ def kiss():
                 data={"status":"1000","signed":"false","experience":add_kiss,"days":days}
     return jsonify(data)
     
+# 动态详情
+@app.route('/user/detail',methods=['POST','GET'])
+def detail():
+    if request.method=="GET":
+        cid=request.args.get("cid")
+        result=base.get_circle_detail(cid)
+        title=result.title
+        if not title:
+            title=result.content
+            if len(result.content)>10:
+                title=result.content[:10]+'...' 
+        return render_template('detail.html',data={"uid":result.uid,
+        "username":result.username,"posted_time":result.posted_time,
+        "user_type":result.user_type,"class_type":result.class_type,"title":title,
+        "content":result.content})
+    else:
+        return ""
 
 # 注册页面
 @app.route('/user/reg', methods=['GET', 'POST'])
@@ -252,7 +333,7 @@ def fget():
             dict_msg={"status":"1001","Msg":"邮件发送失败","value":""}
         logging(email+"注册--->"+dict_msg["Msg"])            
         return jsonify(dict_msg)
-        
+
 
 # 个人中心
 @app.route('/user/home', methods=['GET', 'POST'])
@@ -266,5 +347,6 @@ if __name__ == '__main__':
     logging("服务启动成功")    
     app.run(host='0.0.0.0',debug=False, port=5000)
     session.permanent = True 
+    
     # 执行完毕必须调用close()方法
     # my01.close()

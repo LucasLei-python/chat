@@ -170,7 +170,7 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function(
               form.on('submit(uploadImages)', function(data){
                 var field = data.field;
                 if(!field.image) return image.focus();
-                layui.focusInsert(editor[0], 'img['+ field.image + '] ');
+                layui.focusInsert(editor[0], '<img src='+ field.image +'> ');
                 layer.close(index);
               });
             }

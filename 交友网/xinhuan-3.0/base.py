@@ -67,6 +67,16 @@ def insert_kiss(uid,kiss_cout,kiss_day=datetime.datetime.now()):
     except Exception as e:
         return "Error："+str(e)
 
+def get_circle_detail(id):
+    """
+        获取详细的动态
+    """
+    a=aliased(User_life_circle)
+    b=aliased(User_info)
+    result=db.session.query(a.id.label("cid"),b.uid,b.username,b.user_type,a.class_type,
+    a.title,a.content,a.posted_time).join(b,a.uid==b.uid).filter(a.id==id).first()
+    return result
+
 def get_circle(uid=None,sort_type=None):
     """
         多表关联,返回对象列表
@@ -81,14 +91,14 @@ def get_circle(uid=None,sort_type=None):
         query_list=(a.uid==uid)   
     if sort_type=="comment":
         sort_text="comment_count  desc"
-    result=db.session.query(c.uid,c.user_type,c.username,a.content,a.posted_time,
+    result=db.session.query(c.uid,c.user_type,c.username,a.id,a.class_type,a.title,a.content,a.posted_time,
         db.func.count(b.uid).label("comment_count"),db.func.sum(db.func.ifnull(d.kiss_count,0)).label("kiss_count")
         # db.func.sum(db.func.ifnull(b.kiss,0)).label("kiss_count")
         ).outerjoin(b,
         a.id==b.circle_id).outerjoin(c,
         a.uid==c.uid)\
         .outerjoin(d,d.uid==a.uid).filter(query_list).group_by(c.uid,
-        c.user_type,c.username,a.content,
+        c.user_type,c.username,a.id,a.class_type,a.title,a.content,
         a.posted_time).order_by(text(sort_text)).all()
     # if sort_type=="comment":
     #     result=db.session.query(c.uid,c.user_type,c.username,a.content,a.posted_time,
@@ -109,9 +119,20 @@ def get_circle(uid=None,sort_type=None):
     # print(result)
     return result
 
+def publishing(uid,class_type,title,content):
+    try:        
+        db.session.add(User_life_circle(uid,class_type,title,content))     
+    except Exception as e:
+        return "Error："+str(e)
+
 
 # get_circle(sort_type="comment")
 
+def insert_circlement(uid,circle_id,comment):
+    try:        
+        db.session.add(User_circle_comment(uid,circle_id,comment))     
+    except Exception as e:
+        return "Error："+str(e)
 
   
 

@@ -24,7 +24,7 @@
     </a>
     <ul class="layui-nav fly-nav layui-hide-xs">
       <li class="layui-nav-item layui-this">
-        <a href="/"><i class="iconfont icon-jiaoliu"></i>交流</a>
+        <a href="/building"><i class="iconfont icon-jiaoliu"></i>交流</a>
       </li>
       <!-- <li class="layui-nav-item">
         <a href="#"><i class="iconfont icon-iconmingxinganli"></i>生活圈</a>
@@ -47,11 +47,12 @@
         <a href="/user/reg">注册</a>
       </li>
       <li class="layui-nav-item layui-hide-xs">
-        <a href="/app/qq/" onclick="layer.msg('正在通过QQ登入', {icon:16, shade: 0.1, time:0})" title="QQ登入" class="iconfont icon-qq"></a>
+        <!-- <a href="/app/qq/" onclick="layer.msg('正在通过QQ登入', {icon:16, shade: 0.1, time:0})" title="QQ登入" class="iconfont icon-qq"></a> -->
+        <a href="/building" onclick="layer.msg('正在通过QQ登入', {icon:16, shade: 0.1, time:0})" title="QQ登入" class="iconfont icon-qq"></a>
       </li>
-      <li class="layui-nav-item layui-hide-xs">
+      <!-- <li class="layui-nav-item layui-hide-xs">
         <a href="/app/weibo/" onclick="layer.msg('正在通过微博登入', {icon:16, shade: 0.1, time:0})" title="微博登入" class="iconfont icon-weibo"></a>
-      </li>
+      </li> -->
     </ul>
     <ul class="layui-nav fly-nav-user" id="yes" style="display: none">
       <!-- 登入后的状态 -->      
@@ -78,7 +79,7 @@
   <div class="layui-container">
     <ul class="layui-clear">
       <li class="layui-hide-xs layui-this"><a href="/">首页</a></li> 
-      <li><a href="#">提问</a></li>       
+      <!-- <li><a href="#">提问</a></li>        -->
       <li><a href="#">建议</a></li> 
       <li><a href="#">公告</a></li> 
       <li><a id="trends">动态</a></li> 
@@ -91,14 +92,14 @@
     
     <div class="fly-column-right layui-hide-xs"> 
       <span class="fly-search"><i class="layui-icon"></i></span> 
-      <a href="/user/publishing" class="layui-btn">发表动态</a> 
+      <a href="/user/publishing" class="layui-btn" id="publishing">发表动态</a> 
     </div> 
     <!-- <div class="layui-hide-sm layui-show-xs-block" style="margin-top: -10px; padding-bottom: 10px; text-align: center;"> 
       <a href="#" class="layui-btn">发表生活感言</a>  -->
     </div> 
   </div>
 </div>
-<iframe src="" frameborder="0"></iframe>
+
 <div class="layui-container" id="main">
   <div class="layui-row layui-col-space15">
     <div class="layui-col-md8">
@@ -167,7 +168,7 @@
           <i class="fly-mid"></i> 
           <a href="javascript:;" class="fly-link" id="LAY_signinHelp">说明</a>
           <i class="fly-mid"></i> 
-          <a href="javascript:;" class="fly-link" id="LAY_signinTop">活跃榜<span class="layui-badge-dot"></span></a>
+          <!-- <a href="javascript:;" class="fly-link" id="LAY_signinTop">活跃榜<span class="layui-badge-dot"></span></a> -->
           <span class="fly-signin-days">已连续签到<cite id="kiss_days">0</cite>天</span>
         </div>
         <div class="fly-panel-main fly-signin-main">
@@ -192,13 +193,13 @@
 </div>
 
 <script src="/static/layui/layui.js"></script>
-<script src="/static/mods/index.js"></script>
+<!-- <script src="/static/mods/index.js"></script> -->
 <script src="/static/js/jquery-3.4.1.min.js"></script>
 <script src="/static/js/common.js"></script>
 <script>
-$("#trends").bind("click",function(){
-    $("#main").load("/templates/set.html")
-})
+// $("#trends").bind("click",function(){
+//     $("#main").load("/templates/set.html")
+// })
 $(function(){
 // 获取个人信息
 $.ajax({
@@ -215,6 +216,11 @@ $.ajax({
               var data=response             
               if (data.uid==""){
                 $('#no').show();
+                // 没有登录不能发表动态
+                $("#publishing").bind("click",function(){
+                  layer.msg("请先登录",{shift: 6});
+                  return false;
+                })
               }
               else{                
                 var vip="VIP"+data.user_type;
@@ -241,9 +247,9 @@ $.ajax({
           url:'/user/kiss',
           type:'post',
           async:true,
-          data:JSON.stringify({"type":"query"}),
+          data:{"type":"query"},
           dataType:'json',
-          contentType:"application/json;charset=utf-8",
+          // contentType:"application/json;charset=utf-8",
           success:function(res){
             // var data=res;
             console.log(res.status,res.signed)
@@ -286,7 +292,7 @@ function get_circle(sort_type){
     $.each(data,function(index,obj){  
     var html='<li><a href="/user/home" class="fly-avatar">';
     html+="<img id=img_"+index+"></a>";   
-    html+='<h2><a class="layui-badge">动态</a><a href="/">'+obj.content+'</a></h2>'; 
+    html+='<h2><a class="layui-badge">'+obj.class_type+'</a><a href="/user/detail?cid='+obj.id+'">'+obj.title+'</a></h2>'; 
     html+='<div class="fly-list-info"><a href="/user/home" link>';  
     html+='<cite>'+obj.username+'</cite>';
     html+='<i class="iconfont icon-renzheng"></i>';

@@ -249,14 +249,14 @@
        }
        // 发送请求
        xhr.open("post",'/user/reg',false);
-       console.log(xhr.readyState);
+      //  console.log(xhr.readyState);
        xhr.onreadystatechange=function(){
-        console.log(xhr.readyState)
+        // console.log(xhr.readyState)
          if(xhr.readyState==4&&xhr.status==200){
            // 接受数据
            var data=JSON.parse(xhr.responseText); 
-           console.log(data)
-          //  layer.msg(data.Msg);
+          //  console.log(data)
+           layer.msg(data.Msg);
            if(data.status=="1000"){
              //设延时跳转
             setTimeout(function(){

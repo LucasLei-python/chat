@@ -30,7 +30,7 @@ class User_info(db.Model):
     address=db.Column(db.String(20))
     graph=db.Column(db.Binary(200)) 
     sex=db.Column(db.String(2))   
-    def __init__(self,uid=None,sex="",username="",pwd="",user_type="0",tel="",address="",graph="",email=""):
+    def __init__(self,uid=None,sex="",username="",pwd="",user_type="0",tel="",address="",graph=b"",email=""):
         self.uid=uid
         self.username=username
         self.pwd=pwd
@@ -67,11 +67,17 @@ class User_life_circle(db.Model):
     __tablename__="user_life_circle"
     id=db.Column(db.Integer,primary_key=True)
     uid=db.Column(db.String(20))
+    class_type=db.Column(db.String(10))
+    title=db.Column(db.String(500))
     content=db.Column(db.String(2000))
     posted_time=db.Column(db.DateTime)
-    def __init__(self,uid,content):
+    def __init__(self,uid,class_type,title,content,post_time=datetime.datetime.now):
         self.uid=uid
         self.content=content
+        self.class_type=class_type
+        self.title=title
+        self.content=content
+        self.posted_time=post_time
 
 class User_circle_comment(db.Model):
     __tablename__="user_circle_comment"
@@ -81,11 +87,10 @@ class User_circle_comment(db.Model):
     comment=db.Column(db.String(500))
     kiss=db.Column(db.Integer)
     inittime=db.Column(db.DateTime)
-    def __init__(self,uid,circle_id,comment,kiss):
+    def __init__(self,uid,circle_id,comment):
         self.uid=uid
         self.circle_id=circle_id
         self.comment=comment
-        self.kiss=kiss
 
 class User_sign_in(db.Model):
     __tablename__="user_sign_in"
