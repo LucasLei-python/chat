@@ -221,13 +221,15 @@ $.ajax({
               var data=response             
               if (data.uid==""){
                 $('#no').show();
+                login=false;
                 // 没有登录不能发表动态
-                $("#publishing").bind("click",function(){
-                  layer.msg("请先登录",{shift: 6});
-                  return false;
-                })
+                // $("#publishing").bind("click",function(){
+                //   layer.msg("请先登录",{shift: 6});
+                //   return false;
+                // })
               }
-              else{                
+              else{ 
+                login=true;               
                 var vip="VIP"+data.user_type;
                 $("#username").text(data.username);
                 $("#user_type").text(vip);
@@ -240,6 +242,7 @@ $.ajax({
       });  
   })
   $("#publishing").bind('click',function(){
+    if (login){      
     $.ajax({
           url:'/user/publishing',
           type:'post',
@@ -259,6 +262,10 @@ $.ajax({
             }  
           }
     })
+    }
+    else{
+      layer.msg("请先登录");
+    }
   })
 </script>
 <script>
