@@ -3,18 +3,26 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import pymysql
 pymysql.install_as_MySQLdb()
-import datetime
+import datetime,os
+
 
 # 将当前的模块构建成flask应用
 # 当flask应用构建完成后就可以接受请求并给出响应
 app = Flask(__name__)
+
 # app.config.from_object(config)#加盐
 
 app.config["SQLALCHEMY_DATABASE_URI"]="mysql://exchange:321@127.0.0.1:3306/soul"
 
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"]=True
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN']=True
-
+app.config.update(
+    SECRET_KEY = os.urandom(24),
+    # 上传文件夹
+    UPLOAD_FOLDER = 'static/upload/',
+    # 最大上传大小，当前16MB
+    MAX_CONTENT_LENGTH = 16 * 1024 * 1024
+)
 #创建sqlalchemy 实例
 db=SQLAlchemy(app)
 #db 表示正在使用的数据库,同时获得了sqlslchemy的所有功能
@@ -67,13 +75,15 @@ class User_life_circle(db.Model):
     __tablename__="user_life_circle"
     id=db.Column(db.Integer,primary_key=True)
     uid=db.Column(db.String(20))
+    see_type=db.Column(db.String(10))
     class_type=db.Column(db.String(10))
     title=db.Column(db.String(500))
     content=db.Column(db.String(2000))
     posted_time=db.Column(db.DateTime)
-    def __init__(self,uid,class_type,title,content,post_time=datetime.datetime.now):
+    def __init__(self,uid,class_type,see_type,title,content,post_time=datetime.datetime.now()):
         self.uid=uid
         self.content=content
+        self.see_type=see_type
         self.class_type=class_type
         self.title=title
         self.content=content
@@ -87,10 +97,11 @@ class User_circle_comment(db.Model):
     comment=db.Column(db.String(500))
     kiss=db.Column(db.Integer)
     inittime=db.Column(db.DateTime)
-    def __init__(self,uid,circle_id,comment):
+    def __init__(self,uid,circle_id,comment,inittime=datetime.datetime.now()):
         self.uid=uid
         self.circle_id=circle_id
         self.comment=comment
+        self.inittime=inittime
 
 class User_sign_in(db.Model):
     __tablename__="user_sign_in"

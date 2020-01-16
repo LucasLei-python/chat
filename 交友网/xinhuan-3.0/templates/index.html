@@ -24,7 +24,7 @@
     </a>
     <ul class="layui-nav fly-nav layui-hide-xs">
       <li class="layui-nav-item layui-this">
-        <a href="/building"><i class="iconfont icon-jiaoliu"></i>交流</a>
+        <a href="http://176.140.10.95:5000/chat4"><i class="iconfont icon-jiaoliu"></i>交流</a>
       </li>
       <!-- <li class="layui-nav-item">
         <a href="#"><i class="iconfont icon-iconmingxinganli"></i>生活圈</a>
@@ -78,10 +78,10 @@
 <div class="fly-panel fly-column">
   <div class="layui-container">
     <ul class="layui-clear">
-      <li class="layui-hide-xs layui-this"><a href="/">首页</a></li> 
+      <li class="layui-hide-xs layui-this" id="see_all">首页</li> 
       <!-- <li><a href="#">提问</a></li>        -->
-      <li><a href="#">建议</a></li> 
-      <li><a href="#">公告</a></li> 
+      <li><a id="sugest">建议</a></li> 
+      <li><a id="notice">公告</a></li> 
       <li><a id="trends">动态</a></li> 
       <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><span class="fly-mid"></span></li> 
       
@@ -92,7 +92,7 @@
     
     <div class="fly-column-right layui-hide-xs"> 
       <span class="fly-search"><i class="layui-icon"></i></span> 
-      <a href="/user/publishing" class="layui-btn" id="publishing">发表动态</a> 
+      <a href="/user/publishing?cid=" class="layui-btn" id="publishing">发表动态</a> 
     </div> 
     <!-- <div class="layui-hide-sm layui-show-xs-block" style="margin-top: -10px; padding-bottom: 10px; text-align: center;"> 
       <a href="#" class="layui-btn">发表生活感言</a>  -->
@@ -197,10 +197,17 @@
 <script src="/static/js/jquery-3.4.1.min.js"></script>
 <script src="/static/js/common.js"></script>
 <script>
-// $("#trends").bind("click",function(){
-//     $("#main").load("/templates/set.html")
-// })
+types=""
 $(function(){
+  $("#trends,#sugest,#notice,#see_all").bind("click",function(){
+    console.log($(this).text());    
+    types=$(this).text();
+    if(types=="首页"){
+      types=""
+    }
+    clearInterval(timeer);
+  get_circle("comment",types);
+})
 // 获取个人信息
 $.ajax({
           url:'/user_info',
@@ -262,27 +269,27 @@ $.ajax({
             }
           }       
       })
-get_circle("new");
+get_circle("new",types);
 // 获取动态信息
 $("#new").bind("click",function(){
   $("#new~a").removeClass("layui-this");
   $("#new").addClass("layui-this");
   clearInterval(timeer);
-  get_circle("new");
+  get_circle("new",types);
 })
 $("#hot").bind("click",function(){
   $("#new").removeClass("layui-this");
   $("#hot").addClass("layui-this");
   clearInterval(timeer);
-  get_circle("comment");
+  get_circle("comment",types);
 })
-function get_circle(sort_type){
+function get_circle(sort_type,class_type){
   $.ajax({
   url:"/user/circle",
   type:"post",
   dataType:"json",
   async:true,
-  data:{"sort_type":sort_type},
+  data:{"sort_type":sort_type,"class_type":class_type},
   success:function(response){
     var data=response; 
     console.log(data)
@@ -302,10 +309,12 @@ function get_circle(sort_type){
     html+='<i class="iconfont icon-kiss"></i> '+obj.kiss_count+'</span>';
     html+='<span class="fly-list-nums">';
     html+='<i class="iconfont icon-pinglun1" title="回答"></i> '+obj.comment_count+'</span></div></li>'
-    var img_url="/static/images/avatar/"+data.uid+".jpg";
+    var img_url="/static/images/avatar/"+obj.uid+".jpg";
+    var img_id="img_"+index;
+    console.log(img_url)
     $("#express").append(html);
-    $('#express img').attr("src",img_url);
-    $('#express img').attr("onerror","this.src='/static/images/avatar/default.png'");
+    $('#'+img_id+'').attr("src",img_url);
+    $('#'+img_id+'').attr("onerror","this.src='/static/images/avatar/default.png'");
     })  
   //  加入滚动动画
     animate();

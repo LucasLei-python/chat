@@ -80,27 +80,37 @@
         </ul>
         <div class="layui-form layui-tab-content" id="LAY_ucm" style="padding: 20px 0;">
           <div class="layui-tab-item layui-show">
-            <form action="/user/publishing" method="post">
+            <!-- <form action="/user/publishing" method="post"> -->
               <div class="layui-row layui-col-space15 layui-form-item">
                 <div class="layui-col-md3">
                   <label class="layui-form-label">所在专栏</label>
                   <div class="layui-input-block">
-                    <select lay-verify="required" name="class" lay-filter="column"> 
+                    <select lay-verify="required" name="class" lay-filter="column" id="class"> 
                       <option></option> 
                       <!-- <option value="0">提问</option> 
                       <option value="99">分享</option> 
                       <option value="100">讨论</option>  -->
-                      <option value="建议">建议</option> 
-                      <option value="公告">公告</option> 
-                      <option value="动态">动态</option> 
+                      <option value="建议" {% if data.class_type=='建议' %}selected{% endif %} >建议</option> 
+                      <option value="公告" {% if data.class_type=='公告' %}selected{% endif %}>公告</option> 
+                      <option value="动态" {% if data.class_type=='动态' %}selected{% endif %}>动态</option> 
                     </select>
                   </div>
                 </div>
-                <div class="layui-col-md9">
+                <div class="layui-col-md6">
                   <label for="L_title" class="layui-form-label">标题</label>
                   <div class="layui-input-block">
-                    <input type="text" id="L_title" name="title" required lay-verify="required" autocomplete="off" class="layui-input">
+                    <input type="text" id="L_title" name="title" required lay-verify="required" autocomplete="off" class="layui-input" value="{{data.title}}">
                     
+                  </div>
+                </div>
+                <div class="layui-col-md3">
+                  <label class="layui-form-label">是否可见</label>
+                  <div class="layui-input-block">
+                    <select lay-verify="required" name="see_type" id="see_type" lay-filter="column"> 
+                      <option></option>                       
+                      <option value="ALL" {% if data.see_type == 'ALL' %}selected{% endif %} >全部可见</option> 
+                      <option value="FD" {% if data.see_type == 'FD' %}selected{% endif %}>仅朋友可见</option>                       
+                    </select>
                   </div>
                 </div>
               </div>
@@ -133,7 +143,7 @@
               </div> -->
               <div class="layui-form-item layui-form-text">
                 <div class="layui-input-block">
-                  <textarea id="L_content" name="content" required lay-verify="required" placeholder="详细描述" class="layui-textarea fly-editor" style="height: 260px;"></textarea>
+                  <textarea id="L_content" name="content" required lay-verify="required" placeholder="详细描述" class="layui-textarea fly-editor" style="height: 260px;">{{data.content}}</textarea>
                 </div>
               </div>
               <!-- <div class="layui-form-item">
@@ -173,9 +183,11 @@
                 </div>
               </div> -->
               <div class="layui-form-item">
-                <button class="layui-btn" lay-filter="*" lay-submit id="publishing">立即发布</button>
+                <input type="text" name="submit_type" id="submit_type" style="display: none" value={% if data.id!='' %}update{% endif %} >
+                <input type="text" name="id" id="id" style="display: none" value={{data.id}} >
+                <button class="layui-btn"  id="publishing">立即发布</button>
               </div>
-            </form>
+            <!-- </form> -->
           </div>
         </div>
       </div>
@@ -199,7 +211,7 @@ $.ajax({
           url:'/user_info',
           type:'post',
           async:true,
-          dataType:'json',
+          dataType:'json',         
           // contentType:'application/json;charset=utf-8',
           // data:JSON.stringify({"1":"uid"}),//JSON字符串
           success:function(response){
@@ -225,8 +237,28 @@ $.ajax({
                 $('#yes').show();                
               }             
           },          
-      })
-    
+      });  
+  })
+  $("#publishing").bind('click',function(){
+    $.ajax({
+          url:'/user/publishing',
+          type:'post',
+          async:true,
+          dataType:'json', 
+          data:{"id":$("#id").val(),"class":$('#class').val(),"see_type":$('#see_type').val(),
+          "title":$('#L_title').val(),"content":$('#L_content').val(),"submit_type":$('#submit_type').val()},        
+          success:function(res){
+            console.log(res);
+            layer.msg(res.Msg);
+        if(res.status=="1000"){
+          setTimeout(function(){
+              clearTimeout();
+              location.href=res.value;
+            },600)
+          
+            }  
+          }
+    })
   })
 </script>
 <script>

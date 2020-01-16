@@ -11,13 +11,14 @@ from Islogin import need_login
 import time,datetime
 from modules import *
 import base,os
+from jiemain import jie
 
 #导入sqlalchemy
 from flask_sqlalchemy import SQLAlchemy
 import pymysql
 pymysql.install_as_MySQLdb()
 import json
-
+from jiemain import jie
 # 导入日志模块
 from rizhi import logging
 
@@ -26,19 +27,12 @@ from rizhi import logging
 # 将当前的模块构建成flask应用
 # 当flask应用构建完成后就可以接受请求并给出响应
 # app = Flask(__name__)
+# 注入蓝图
 
 app.config.from_object(config)#加盐
-app.config.update(
-    SECRET_KEY = os.urandom(24),
-    # 上传文件夹
-    UPLOAD_FOLDER = 'static/upload/',
-    # 最大上传大小，当前16MB
-    MAX_CONTENT_LENGTH = 16 * 1024 * 1024
-)
+app.register_blueprint(jie)
 
 my01 = Mysql01()
-my01.in_up_de("update user_info set ")
-
 # 首页
 @app.route('/', methods=['GET', 'POST'])
 def index():    
@@ -57,57 +51,41 @@ def self_set():
     else:
         return ""
 
-# 写入评论
-@app.route('/jie/reply/',methods=['GET','POST'])
-def reply():
-    data=request.form
-    uid=session.get("uid")
-    # comment=data.get("content")
-    circle_id=data.get("circle_id")
-    comment=data.get("comment")
-    dict01={}
-    # 写入数据库
-    result=base.User_circle_comment(uid,circle_id,comment)
-    if result:
-        dict01={"status":"1000","Msg":"提交成功"}
-    else:
-        dict01={"status":"1002","Msg":"Error:"+result}
-    return dict01
     
-
-
-# 上传图片
-@app.route('/api/upload/',methods=['GET','POST'])
-def updimg():
-    if request.method=="POST":
-        f=request.files.get("file")  
-        filename=datetime.datetime.now().strftime('%Y%m%d%H%M%S')+'.'+f.filename.split('.')[1]
-        # 自动创建上传文件夹
-        if not os.path.exists(app.config['UPLOAD_FOLDER']):
-            os.makedirs(app.config['UPLOAD_FOLDER'])
-        # 保存图片
-        f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        url ='/'+app.config['UPLOAD_FOLDER']+filename  
-        return jsonify({"status":"0","url":url})        
 # 发表个人动态
 
 @app.route('/user/publishing',methods=['GET','POST'])
 def publishing():
     if request.method=="GET":
-        return  render_template("add.html")
+        cid=request.args.get("cid")
+        dict01={"class_type":"","title":"","see_type":"","content":""}
+        result=base.get_circle_detail(cid)
+        if result:
+            dict01["class_type"]=result.class_type
+            dict01["title"]=result.title
+            dict01["see_type"]=result.see_type
+            dict01["content"]=result.content
+            dict01["id"]=cid
+        return  render_template("add.html",data=dict01)
     else:
         data=request.form
+        cid=data.get("id")
         class_type=data.get("class")
+        see_type=data.get("see_type")
         title=data.get("title")
         content=data.get("content")
+        # submit_type=data.get("submit_type")        
         dict01={}
-        # 写入数据
-        result=base.publishing(session.get("uid"),class_type,title,content)
+        # 写入数据 
+        if cid:
+            result=base.publishing_up(cid,class_type,see_type,title,content)
+        else:       
+            result=base.publishing(session.get("uid"),class_type,see_type,title,content)
         if result:
             dict01={"status":"1002","Msg":result,"value":""}
         else:
-            dict01={"status":"1000","Msg":"发表成功","value":""}
-    return redirect("/")
+            dict01={"status":"1000","Msg":"发表成功","value":"/"}            
+    return jsonify(dict01)
 
 # 获取个人信息
 @app.route('/user_info',methods=['GET', 'POST'])
@@ -164,30 +142,32 @@ def circle():
     if request.method=="POST":
         # 获取信息
         list_info=[] 
-        data=request.form.get("sort_type")
-        if data=="comment":   
-            result=base.get_circle(session.get("uid"),"comment")
+        sort_type=request.form.get("sort_type")
+        class_type=request.form.get("class_type")
+        if sort_type=="comment":   
+            result=base.get_circle(sort_type="comment",class_type=class_type)
         else:
-            result=base.get_circle(session.get("uid"))
-        for item in result:  
-            dict_info={}  
-            dict_info["id"]=item.id
-            dict_info["uid"]=item.uid       
-            dict_info["username"]=item.username
-            dict_info["user_type"]=item.user_type   
-            dict_info["class_type"]=item.class_type
-            dict_info["title"]=item.title
-            if not item.title:
-                dict_info["title"]=item.content
-                if len(item.content)>10:
-                    dict_info["title"]=item.content[:10]+'...'            
-            dict_info["content"]=item.content
-            dict_info["comment_count"]=item.comment_count
-            dict_info["kiss_count"]=item.kiss_count
-            dict_info["posted_time"]=item.posted_time.strftime("%Y-%m-%d %H:%M:%S")
-            
-            list_info.append(dict_info)
-            del dict_info
+            result=base.get_circle(class_type=class_type)
+        for item in result:
+            if not session.get("uid") or item.see_type=="ALL" or item.uid==session.get("uid"):  
+                dict_info={}  
+                dict_info["id"]=item.id
+                dict_info["uid"]=item.uid       
+                dict_info["username"]=item.username
+                dict_info["user_type"]=item.user_type   
+                dict_info["class_type"]=item.class_type
+                dict_info["title"]=item.title
+                if not item.title:
+                    dict_info["title"]=item.content
+                    if len(item.content)>10:
+                        dict_info["title"]=item.content[:10]+'...'            
+                dict_info["content"]=item.content
+                dict_info["comment_count"]=item.comment_count
+                dict_info["kiss_count"]=item.kiss_count
+                dict_info["posted_time"]=item.posted_time.strftime("%Y-%m-%d %H:%M:%S")
+                
+                list_info.append(dict_info)
+                del dict_info
     return jsonify(list_info)
         
 # 今日签到
@@ -249,7 +229,7 @@ def detail():
             title=result.content
             if len(result.content)>10:
                 title=result.content[:10]+'...' 
-        return render_template('detail.html',data={"uid":result.uid,
+        return render_template('detail.html',data={"cid":cid,"uid":result.uid,
         "username":result.username,"posted_time":result.posted_time,
         "user_type":result.user_type,"class_type":result.class_type,"title":title,
         "content":result.content})

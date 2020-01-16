@@ -3,7 +3,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Fly Template v3.0，基于 layui 的极简社区页面模版</title>
+  <title>心欢交友动态详情</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <link rel="stylesheet" href="/static/layui/css/layui.css">
   <link rel="stylesheet" href="/static/css/global.css">
@@ -63,16 +63,13 @@
         <div class="fly-detail-info">
           <!-- <span class="layui-badge">审核中</span> -->
           <span class="layui-badge layui-bg-green fly-detail-column">{{data.class_type}}</span>
-          
-          
-          
-          <div class="fly-admin-box" data-id="123">
-            <span class="layui-btn layui-btn-xs jie-admin" type="del">删除</span>           
+          <div class="fly-admin-box " data-id="123">
+            <span class="layui-btn  layui-btn-xs jie-admin" id="del">删除</span>           
             
           </div>
           <span class="fly-list-nums"> 
-            <a href="#comment"><i class="iconfont" title="评论">&#xe60c;</i> 0</a>
-            <i class="iconfont" title="人气">&#xe60b;</i>0
+            <a href="#comment"><i class="iconfont" title="评论"  >&#xe60c;</i> <label id='comment_count'></label></a>
+            <!-- <i class="iconfont" title="人气">&#xe60b;</i>0 -->
           </span>
         </div>
         <div class="detail-about">
@@ -88,7 +85,7 @@
             <span>{{data.posted_time}}</span>
           </div>
           <div class="detail-hits" id="LAY_jieAdmin" data-id="123">            
-            <span class="layui-btn layui-btn-xs jie-admin" type="edit"><a href="/user/publishing">编辑</a></span>
+            <span class="layui-btn layui-btn-xs jie-admin" type="edit" id="edt"><a href="/user/publishing?cid={{data.cid}}">编辑</a></span>
           </div>
         </div>
         <div class="detail-body photos" id="contentde">{{data.content}}
@@ -103,12 +100,11 @@
 
         <ul class="jieda" id="jieda">          
           
-          <!--无数据时 -->
-          <li class="fly-none">消灭零回复</li>
+            
         </ul>
         
         <div class="layui-form layui-form-pane">
-          <form action="/jie/reply/" method="post">
+          <!-- <form action="/jie/reply/" method="post"> -->
             <div class="layui-form-item layui-form-text">
               <a name="comment"></a>
               <div class="layui-input-block">
@@ -117,9 +113,9 @@
             </div>
             <div class="layui-form-item">
               <input type="hidden" name="jid" value="123">
-              <button class="layui-btn" lay-filter="*" lay-submit>提交评论</button>
+              <button class="layui-btn" lay-filter="*" id="submit" >提交评论</button>
             </div>
-          </form>
+          <!-- </form> -->
         </div>
       </div>
     </div>    
@@ -134,6 +130,86 @@
 
 <script src="/static/layui/layui.js"></script>
 <script src="/static/js/jquery-3.4.1.min.js"></script>
+<script>
+  $(function(){
+    $.ajax({
+      url:"/jie/reply_detail/",
+      dataType:"json",
+      data:{"cid":"{{data.cid}}"},
+      type:"post",
+      success:function(res){
+     
+    var i=0
+    // 先删除子元素
+    $("#jieda").empty();
+    $.each(res,function(index,obj){
+    console.log(obj)  ;
+    i++;
+    var html='<li data-id="111" class="jieda-daan">';
+        html+='<a name="item-1111111111"></a>';
+        html+='<div class="detail-about detail-about-reply">';
+        html+='<a class="fly-avatar" href="">';
+        html+='<img id=img_'+index+'></a>';
+        html+='<div class="fly-detail-user">';
+        html+='<a href="" class="fly-link">';
+        html+='<cite>'+obj.username+'</cite>';
+        html+='<i class="iconfont icon-renzheng" title=""></i>';
+        html+='<i class="layui-badge fly-badge-vip">VIP'+obj.user_type+'</i></a>';              
+        html+='</div>';
+        html+='<div class="detail-hits">';
+        html+='<span>'+obj.inittime+'</span></div></div>';
+        html+='<div class="detail-body jieda-body photos">';
+        html+=''+obj.comment+'</div></li>';
+      var img_url="/static/images/avatar/"+obj.uid+".jpg";
+      var img_id="img_"+index;
+    console.log(img_url)
+    $("#jieda").append(html);
+    $('#'+img_id+'').attr("src",img_url);
+    $('#'+img_id+'').attr("onerror","this.src='/static/images/avatar/default.png'");
+    }) ;
+    $('#comment_count').text(i);    
+    }
+
+    })
+
+  })
+  $('#del').bind('click',function(){
+    $.ajax({
+      url:"/jie/del",
+      dataType:"json",
+      data:{"cid":"{{data.cid}}","uid":"{{data.uid}}"},
+      type:"post",
+      success:function(res){
+        layer.msg(res.Msg);
+        if(res.status=="1000"){
+          setTimeout(function(){
+              clearTimeout();
+              location.href=res.value;
+            },600)
+          
+        }        
+      }
+    })
+  })  
+  $('#submit').bind('click',function(){
+    $.ajax({
+      url:"/jie/reply/",
+      dataType:"json",
+      data:{"cid":"{{data.cid}}","comment":$('#L_content').val()},
+      type:"post",
+      success:function(res){
+        layer.msg(res.Msg);
+        if(res.status=="1000"){
+          setTimeout(function(){
+              clearTimeout();
+              location.reload();
+            },600)
+          
+        }        
+      }
+    })
+  })
+</script>
 <script>
     layui.cache.page = 'jie';
     layui.cache.user = {
